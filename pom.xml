@@ -34,6 +34,7 @@
         <phoenix.version>4.13.1-HBase-1.2</phoenix.version>
         <fastjson.version>1.2.47</fastjson.version>
         <elasticsearch.version>5.5.0</elasticsearch.version>
+        <zookeeper.version>3.4.10</zookeeper.version>
         <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
     </properties>
 </project>
