@@ -21,6 +21,7 @@
         <module>Common-collect</module>
         <module>Common-jni</module>
         <module>Common-rocketmq</module>
+        <module>Common-facealarm</module>
     </modules>
 
     <properties>
