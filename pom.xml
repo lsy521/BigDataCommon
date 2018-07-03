@@ -2,46 +2,38 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.hzgc</groupId>
     <artifactId>common</artifactId>
-    <packaging>pom</packaging>
     <version>1.0</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>Common-util</module>
+        <module>Common-faceattribute</module>
         <module>Common-es</module>
-        <module>Common-table</module>
         <module>Common-hbase</module>
-        <module>Common-attribute</module>
-        <module>Common-clustering</module>
+        <module>Common-faceclustering</module>
+        <module>Common-facedispatch</module>
+        <module>Common-facedynrepo</module>
+        <module>Common-facestarepo</module>
+        <module>Common-collect</module>
+        <module>Common-jni</module>
+        <module>Common-rocketmq</module>
     </modules>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <log4j.version>1.2.17</log4j.version>
-        <hbase.version>1.3.2</hbase.version>
-        <hadoop.version>2.7.2</hadoop.version>
-        <zookeeper.version>3.4.10</zookeeper.version>
         <jackson.version>2.9.4</jackson.version>
-        <es.version>5.5.0</es.version>
+        <common-net.version>RELEASE</common-net.version>
         <lombok.version>1.16.18</lombok.version>
+        <rocketmq.version>4.2.0</rocketmq.version>
+        <hadoop.version>2.7.2</hadoop.version>
+        <hbase.version>1.3.2</hbase.version>
+        <kafka.version>1.0.0</kafka.version>
+        <phoenix.version>4.13.1-HBase-1.2</phoenix.version>
+        <fastjson.version>1.2.47</fastjson.version>
+        <elasticsearch.version>5.5.0</elasticsearch.version>
+        <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
     </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

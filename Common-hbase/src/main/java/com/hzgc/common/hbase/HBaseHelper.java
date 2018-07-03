@@ -1,6 +1,6 @@
 package com.hzgc.common.hbase;
 
-import org.apache.commons.lang.StringUtils;
+import com.hzgc.common.util.empty.IsEmpty;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -91,7 +91,7 @@ public class HBaseHelper implements Serializable {
      * @return 表对象
      */
     public static Table getTable(String tableName) {
-        if (!StringUtils.isBlank(tableName)) {
+        if (IsEmpty.strIsRight(tableName)) {
             try {
                 return HBaseHelper.getHBaseConnection().getTable(TableName.valueOf(tableName));
             } catch (IOException e) {
