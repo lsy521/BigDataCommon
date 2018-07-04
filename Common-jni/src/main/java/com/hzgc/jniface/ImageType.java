@@ -1,4 +1,4 @@
-package com.hzgc.common.jniface;
+package com.hzgc.jniface;
 
 public enum ImageType {
     JPG("jpg"),

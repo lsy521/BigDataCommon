@@ -4,7 +4,7 @@ import java.io.*;
 
 public class FileUtil {
 
-    private byte[] fileToByteArray(String filePath){
+    public static byte[] fileToByteArray(String filePath){
         byte[] bytes = null;
         ByteArrayOutputStream baos = null;
         FileInputStream fis = null;

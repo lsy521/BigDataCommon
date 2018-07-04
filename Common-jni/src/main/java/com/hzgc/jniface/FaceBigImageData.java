@@ -1,4 +1,4 @@
-package com.hzgc.common.jniface;
+package com.hzgc.jniface;
 
 public class FaceBigImageData extends ImageData {
 }
