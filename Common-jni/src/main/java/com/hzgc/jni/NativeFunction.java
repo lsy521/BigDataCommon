@@ -1,4 +1,4 @@
-package com.hzgc.common.jni;
+package com.hzgc.jni;
 
 import java.io.Serializable;
 

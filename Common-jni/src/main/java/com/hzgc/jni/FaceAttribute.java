@@ -1,4 +1,4 @@
-package com.hzgc.common.jniface;
+package com.hzgc.jni;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -7,9 +7,6 @@ public class FaceAttribute implements Serializable {
 
     //特征值
     private float[] feature;
-
-    //Bit类型的特征值
-    private byte[] bitFeature;
 
     //头发颜色
     private int hairColor;
@@ -63,14 +60,6 @@ public class FaceAttribute implements Serializable {
 
     public void setFeature(float[] feature) {
         this.feature = feature;
-    }
-
-    public byte[] getBitFeature() {
-        return bitFeature;
-    }
-
-    public void setBitFeature(byte[] bitFeature) {
-        this.bitFeature = bitFeature;
     }
 
     public int getHairColor() {
@@ -133,7 +122,6 @@ public class FaceAttribute implements Serializable {
     public String toString() {
         return "FaceAttribute{" +
                 "feature=" + Arrays.toString(feature) +
-                "bitFeature=" + Arrays.toString(bitFeature) +
                 ", hairColor=" + hairColor +
                 ", hairStyle=" + hairStyle +
                 ", gender=" + gender +

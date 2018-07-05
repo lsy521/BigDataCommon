@@ -1,4 +1,4 @@
-package com.hzgc.common.jniface;
+package com.hzgc.jniface;
 
 public class FaceSmallImageData extends ImageData {
     //人脸信息
