@@ -13,7 +13,7 @@
         <module>Common-util</module>
         <module>Common-faceattribute</module>
         <module>Common-es</module>
-        <module>Common-hbase</module>git
+        <module>Common-hbase</module>
         <module>Common-faceclustering</module>
         <module>Common-facedispatch</module>
         <module>Common-facedynrepo</module>

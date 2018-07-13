@@ -1,5 +1,6 @@
 package com.hzgc.common.facestarepo.table.alarm;
 
+import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class StarepoServiceUtil {
         return objectInfoList;
     }
 
-  public static class ObjectInfo {
+  public static class ObjectInfo implements Serializable {
         private String id;
         private String name;
         private String pkey;
