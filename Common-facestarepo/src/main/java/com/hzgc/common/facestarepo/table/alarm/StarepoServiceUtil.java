@@ -64,7 +64,7 @@ public class StarepoServiceUtil {
     }
 
     @Data
-  public class ObjectInfo {
+  public static class ObjectInfo {
         private String id;
         private String name;
         private String pkey;
