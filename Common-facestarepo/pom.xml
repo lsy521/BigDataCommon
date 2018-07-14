@@ -40,6 +40,5 @@
             <artifactId>phoenix-core</artifactId>
             <version>${phoenix.version}</version>
         </dependency>
-
     </dependencies>
 </project>
