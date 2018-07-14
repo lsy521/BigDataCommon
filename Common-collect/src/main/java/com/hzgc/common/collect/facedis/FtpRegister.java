@@ -69,6 +69,7 @@ public class FtpRegister implements Serializable {
             if (!pathExists(rootPath + "/" + proxyPath)) {
                 LOG.info("Proxy path [" + rootPath + "/" + proxyPath + "] is not exists, create it");
                 zooKeeper.create(rootPath + "/" + proxyPath, null, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                createChildProxyPath();
             } else {
                 LOG.info("Proxy path [" + rootPath + "/" + proxyPath + "] is exists");
                 createChildProxyPath();
