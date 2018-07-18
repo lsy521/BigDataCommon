@@ -73,13 +73,15 @@ public class StaticRepoUtil implements Serializable {
     private static Logger LOG = Logger.getLogger(StaticRepoUtil.class);
     private static StaticRepoUtil instance;
     private static String jdbcUrl;
-    private static final List<Object[]> totalList = searchByPkeys();
+    private static List<Object[]> totalList = null;
+    private final static int[] lock = new int[0];
 
     /**
      * 接口实现使用单例模式
      */
-    private StaticRepoUtil(String kafkaBootStrap, String jdbcUrl) {
-        this.jdbcUrl = jdbcUrl;
+    private StaticRepoUtil(String kafkaBootStrap, String phoenixUrl) {
+        jdbcUrl = phoenixUrl;
+        totalList = searchByPkeys();
         Thread thread = new Thread(new StaticRepoThread(this, kafkaBootStrap));
         thread.start();
         LOG.info("StaticRepo consumer started");
@@ -284,7 +286,7 @@ public class StaticRepoUtil implements Serializable {
         objects[0] = rowKey;
         objects[1] = pkey;
         objects[2] = feature;
-        synchronized (totalList) {
+        synchronized (lock) {
             System.out.println("Method [addObject], totalList before is [" + totalList.size() + "], current time is [" + new Date() + "]");
             totalList.add(objects);
             System.out.println("Method [addObject], totalList after is [" + totalList.size() + "], current time is [" + new Date() + "]");
@@ -292,7 +294,7 @@ public class StaticRepoUtil implements Serializable {
     }
 
     void deleteObject(String event) {
-        synchronized (totalList) {
+        synchronized (lock) {
             System.out.println("Method [deleteObject], totalList before is [" + totalList.size() + "], current time is [" + new Date() + "]");
             for (int i = 0; i < totalList.size(); i++) {
                 if (Objects.equals(event, totalList.get(i)[0])) {
@@ -308,7 +310,7 @@ public class StaticRepoUtil implements Serializable {
         objects[0] = rowKey;
         objects[1] = pkey;
         objects[2] = feature;
-        synchronized (totalList) {
+        synchronized (lock) {
             System.out.println("Method [updateObject], totalList before is [" + totalList.size() + "], current time is [" + new Date() + "]");
             for (int i = 0; i < totalList.size(); i++) {
                 if (Objects.equals(rowKey, totalList.get(i)[0])) {
