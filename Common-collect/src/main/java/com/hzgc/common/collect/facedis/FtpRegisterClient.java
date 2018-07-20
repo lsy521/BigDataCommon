@@ -9,14 +9,22 @@ import org.apache.log4j.Logger;
 import org.apache.zookeeper.CreateMode;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
-public class FtpRegisterClient {
+public class FtpRegisterClient implements Serializable{
 
     private static final Logger LOG = Logger.getLogger(FtpRegisterClient.class);
+    // ftp total register info
     private volatile List<FtpRegisterInfo> ftpRegisterInfoList = new ArrayList<>();
+    // face ftp total register info
+    private volatile List<FtpRegisterInfo> faceFtpRegisterInfoList = new ArrayList<>();
+    // car ftp total register info
+    private volatile List<FtpRegisterInfo> carFtpRegisterInfoList = new ArrayList<>();
+    // person ftp total register info
+    private volatile List<FtpRegisterInfo> personFtpRegisterInfoList = new ArrayList<>();
+    // ftp ip and hostname mapping (key:hostname,value:ip)
+    private volatile Map<String, String> ftpIpMapping = new HashMap<>();
     private final String ftp_register_path = "/ftp_register";
     private Curator registerClient;
 
@@ -74,18 +82,65 @@ public class FtpRegisterClient {
 
     private void refreshData(List<ChildData> currentData){
         if (currentData != null && currentData.size() > 0){
-            List<FtpRegisterInfo> list = new ArrayList<>();
+            List<FtpRegisterInfo> totalFtpList = new ArrayList<>();
+            List<FtpRegisterInfo> faceFtpList = new ArrayList<>();
+            List<FtpRegisterInfo> carFtpList = new ArrayList<>();
+            List<FtpRegisterInfo> personFtpList = new ArrayList<>();
+            Map<String, String> mapping = new HashMap<>();
             for (ChildData childData : currentData){
                 FtpRegisterInfo registerInfo =
                         JSONUtil.toObject(new String(childData.getData()), FtpRegisterInfo.class);
-                list.add(registerInfo);
+                totalFtpList.add(registerInfo);
+                if (registerInfo != null){
+                    if (registerInfo.getFtpType().equals("face")){
+                        faceFtpList.add(registerInfo);
+                    } else if (registerInfo.getFtpType().equals("car")){
+                        carFtpList.add(registerInfo);
+                    } else if (registerInfo.getFtpType().equals("person")){
+                        personFtpList.add(registerInfo);
+                    }else {
+                        LOG.error("Ftp type error for this ftp register info:"
+                                + registerInfo.getFtpIPAddress() + " = "
+                                + JSONUtil.toJson(registerInfo));
+                    }
+                    mapping.put(registerInfo.getFtpHomeName(), registerInfo.getFtpIPAddress());
+                }else {
+                    LOG.error("Ftp register info is null, ftp register child path:" + childData.getPath());
+                }
             }
-            ftpRegisterInfoList = list;
-            LOG.info("Ftp register info:" + Arrays.toString(ftpRegisterInfoList.toArray()));
+            ftpRegisterInfoList = totalFtpList;
+            faceFtpRegisterInfoList = faceFtpList;
+            carFtpRegisterInfoList = carFtpList;
+            personFtpRegisterInfoList = personFtpList;
+            ftpIpMapping = mapping;
+
+            LOG.info("*************************************************************");
+            LOG.info("Total ftp register info:" + Arrays.toString(ftpRegisterInfoList.toArray()));
+            LOG.info("Face ftp register info:" + Arrays.toString(faceFtpRegisterInfoList.toArray()));
+            LOG.info("Car ftp register info:" + Arrays.toString(carFtpRegisterInfoList.toArray()));
+            LOG.info("Person ftp register info:" + Arrays.toString(personFtpRegisterInfoList.toArray()));
+            LOG.info("Ftp ip and hostname mapping:" + JSONUtil.toJson(ftpIpMapping));
+            LOG.info("*************************************************************");
         }
     }
 
     public List<FtpRegisterInfo> getFtpRegisterInfoList() {
         return ftpRegisterInfoList;
+    }
+
+    public List<FtpRegisterInfo> getFaceFtpRegisterInfoList() {
+        return faceFtpRegisterInfoList;
+    }
+
+    public List<FtpRegisterInfo> getCarFtpRegisterInfoList() {
+        return carFtpRegisterInfoList;
+    }
+
+    public List<FtpRegisterInfo> getPersonFtpRegisterInfoList() {
+        return personFtpRegisterInfoList;
+    }
+
+    public Map<String, String> getFtpIpMapping() {
+        return ftpIpMapping;
     }
 }

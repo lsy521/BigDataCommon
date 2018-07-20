@@ -8,9 +8,10 @@ import org.apache.curator.framework.recipes.cache.PathChildrenCache;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.CreateMode;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class FtpSubscribeClient {
+public class FtpSubscribeClient implements Serializable {
 
     private static final Logger LOG = Logger.getLogger(FtpSubscribeClient.class);
     private static Map<String, List<String>> sessionMap = new HashMap<>();
