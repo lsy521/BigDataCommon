@@ -18,8 +18,8 @@
         <module>Common-jni</module>
         <module>Common-zookeeper</module>
         <module>Common-rocketmq</module>
-        <module>Common-es</module>
         <module>Common-collect</module>
+        <module>Common-es</module>
         <module>Common-hbase</module>
         <module>Common-service</module>
         <module>Common-facealarm</module>
