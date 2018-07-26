@@ -69,6 +69,9 @@ public class BigDataPath {
     public static final String OBJECTINFO_UPDATE = "/object_update";
     public static final String OBJECTINFO_UPDATE_STATUS = "/object_update_status";
     public static final String OBJECTINFO_GET = "/object_get";
+    public static final String OBJECTINFO_GET_CARE_PEOPLE = "/get_care_people";
+    public static final String OBJECTINFO_GET_STATUS_PEOPLE = "/get_status_people";
+    public static final String OBJECTINFO_GET_IMPORTANT_PEOPLE = "/get_important_people";
     public static final String OBJECTINFO_SEARCH = "/object_search";
     public static final String OBJECTINFO_GET_PHOTOBYKEY = "/get_object_photo";
     public static final String OBJECTINFO_GET_FEATURE = "/get_feature";
@@ -94,6 +97,9 @@ public class BigDataPath {
     public static final String CAPTURECOUNT_IPCIDS = "/face";
     public static final String PEOPLE_COUNT="/people_count";
     public static final String GET_PICTURE = "/image";
+    public static final String GET_CARE_PEOPLE = "/get_care_people";
+    public static final String GET_STATUS_PEOPLE = "/get_status_people";
+    public static final String GET_IMPORTANT_PEOPLE = "/get_important_people";
 
     /**
      * Dispatch模块请求路径
