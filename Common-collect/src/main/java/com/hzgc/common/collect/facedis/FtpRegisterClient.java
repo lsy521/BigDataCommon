@@ -11,26 +11,28 @@ import org.apache.zookeeper.CreateMode;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public class FtpRegisterClient implements Serializable{
+public class FtpRegisterClient implements Serializable {
 
     private static final Logger LOG = Logger.getLogger(FtpRegisterClient.class);
     // ftp total register info
-    private volatile List<FtpRegisterInfo> ftpRegisterInfoList = new ArrayList<>();
+    private volatile List<FtpRegisterInfo> ftpRegisterInfoList = new CopyOnWriteArrayList<>();
     // face ftp total register info
-    private volatile List<FtpRegisterInfo> faceFtpRegisterInfoList = new ArrayList<>();
+    private volatile List<FtpRegisterInfo> faceFtpRegisterInfoList = new CopyOnWriteArrayList<>();
     // car ftp total register info
-    private volatile List<FtpRegisterInfo> carFtpRegisterInfoList = new ArrayList<>();
+    private volatile List<FtpRegisterInfo> carFtpRegisterInfoList = new CopyOnWriteArrayList<>();
     // person ftp total register info
-    private volatile List<FtpRegisterInfo> personFtpRegisterInfoList = new ArrayList<>();
+    private volatile List<FtpRegisterInfo> personFtpRegisterInfoList = new CopyOnWriteArrayList<>();
     // ftp ip and hostname mapping (key:hostname,value:ip)
-    private volatile Map<String, String> ftpIpMapping = new HashMap<>();
+    private volatile Map<String, String> ftpIpMapping = new ConcurrentHashMap<>();
     private final String ftp_register_path = "/ftp_register";
     private Curator registerClient;
 
-    public FtpRegisterClient(String zkAddress){
-        registerClient = new Curator(zkAddress, 1000, 6000);
-        if (registerClient.nodePathExists(ftp_register_path)){
+    public FtpRegisterClient(String zkAddress) {
+        registerClient = new Curator(zkAddress, 20000, 15000);
+        if (registerClient.nodePathExists(ftp_register_path)) {
             LOG.info("Ftp register root path '/ftp_register' is exists");
         } else {
             registerClient.createNode(ftp_register_path, null, CreateMode.PERSISTENT);
@@ -39,18 +41,21 @@ public class FtpRegisterClient implements Serializable{
         initPathCache(registerClient.getClient());
     }
 
-    public void createNode(FtpRegisterInfo registerInfo){
+    public void createNode(FtpRegisterInfo registerInfo) {
         if (registerInfo != null && registerInfo.getFtpIPAddress() != null
-                && registerInfo.getFtpIPAddress().length() > 0){
+                && registerInfo.getFtpIPAddress().length() > 0) {
             String nodePath = ftp_register_path + "/" + registerInfo.getFtpIPAddress();
             byte[] nodeData = JSONUtil.toJson(registerInfo).getBytes();
+            if (registerClient.nodePathExists(nodePath)){
+                registerClient.deleteChildNode(nodePath);
+            }
             registerClient.createNode(nodePath, nodeData, CreateMode.EPHEMERAL);
             LOG.info("Create ftp register child node path: " + nodePath
                     + " successfully, data: " + JSONUtil.toJson(registerInfo));
         }
     }
 
-    private void initPathCache(CuratorFramework curatorFramework){
+    private void initPathCache(CuratorFramework curatorFramework) {
         final PathChildrenCache pathCache =
                 new PathChildrenCache(curatorFramework, ftp_register_path, true);
         try {
@@ -80,39 +85,39 @@ public class FtpRegisterClient implements Serializable{
         }
     }
 
-    private void refreshData(List<ChildData> currentData){
-        if (currentData != null && currentData.size() > 0){
-            List<FtpRegisterInfo> totalFtpList = new ArrayList<>();
-            List<FtpRegisterInfo> faceFtpList = new ArrayList<>();
-            List<FtpRegisterInfo> carFtpList = new ArrayList<>();
-            List<FtpRegisterInfo> personFtpList = new ArrayList<>();
-            Map<String, String> mapping = new HashMap<>();
-            for (ChildData childData : currentData){
+    private void refreshData(List<ChildData> currentData) {
+        if (currentData != null && currentData.size() > 0) {
+            ftpRegisterInfoList.clear();
+            faceFtpRegisterInfoList.clear();
+            carFtpRegisterInfoList.clear();
+            personFtpRegisterInfoList.clear();
+            ftpIpMapping.clear();
+            for (ChildData childData : currentData) {
                 FtpRegisterInfo registerInfo =
                         JSONUtil.toObject(new String(childData.getData()), FtpRegisterInfo.class);
-                totalFtpList.add(registerInfo);
-                if (registerInfo != null){
-                    if (registerInfo.getFtpType().equals("face")){
-                        faceFtpList.add(registerInfo);
-                    } else if (registerInfo.getFtpType().equals("car")){
-                        carFtpList.add(registerInfo);
-                    } else if (registerInfo.getFtpType().equals("person")){
-                        personFtpList.add(registerInfo);
-                    }else {
-                        LOG.error("Ftp type error for this ftp register info:"
-                                + registerInfo.getFtpIPAddress() + " = "
-                                + JSONUtil.toJson(registerInfo));
+                ftpRegisterInfoList.add(registerInfo);
+                if (registerInfo != null) {
+                    switch (registerInfo.getFtpType()) {
+                        case "face":
+                            faceFtpRegisterInfoList.add(registerInfo);
+                            break;
+                        case "car":
+                            carFtpRegisterInfoList.add(registerInfo);
+                            break;
+                        case "person":
+                            personFtpRegisterInfoList.add(registerInfo);
+                            break;
+                        default:
+                            LOG.error("Ftp type error for this ftp register info:"
+                                    + registerInfo.getFtpIPAddress() + " = "
+                                    + JSONUtil.toJson(registerInfo));
+                            break;
                     }
-                    mapping.put(registerInfo.getFtpHomeName(), registerInfo.getFtpIPAddress());
-                }else {
+                    ftpIpMapping.put(registerInfo.getFtpHomeName(), registerInfo.getFtpIPAddress());
+                } else {
                     LOG.error("Ftp register info is null, ftp register child path:" + childData.getPath());
                 }
             }
-            ftpRegisterInfoList = totalFtpList;
-            faceFtpRegisterInfoList = faceFtpList;
-            carFtpRegisterInfoList = carFtpList;
-            personFtpRegisterInfoList = personFtpList;
-            ftpIpMapping = mapping;
 
             LOG.info("*************************************************************");
             LOG.info("Total ftp register info:" + Arrays.toString(ftpRegisterInfoList.toArray()));
