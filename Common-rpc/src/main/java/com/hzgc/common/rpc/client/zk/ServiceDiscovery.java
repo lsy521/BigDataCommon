@@ -21,9 +21,9 @@ import java.util.List;
 public class ServiceDiscovery extends ZookeeperClient {
     private static final Logger logger = LoggerFactory.getLogger(ServiceDiscovery.class);
     private volatile List<String> workerList = new ArrayList<>();
-    public ServiceDiscovery(String zkAddress) {
-        super(zkAddress);
-        initPathCache(zkClient);
+    public ServiceDiscovery(String zkAddress, Constant constant) {
+        super(zkAddress, constant);
+        initPathCache(zkClient, constant);
     }
 
     /**
@@ -31,9 +31,9 @@ public class ServiceDiscovery extends ZookeeperClient {
      *
      * @param zkClient zookeeper客户端
      */
-    private void initPathCache(CuratorFramework zkClient) {
+    private void initPathCache(CuratorFramework zkClient, Constant constant) {
         final PathChildrenCache pathCache =
-                new PathChildrenCache(zkClient, Constant.ZK_REGISTRY_ROOT_PATH, true);
+                new PathChildrenCache(zkClient, constant.getRootPath(), true);
         try {
             //此种类型的StartMode意思为已存在节点不作为变化事件
             pathCache.start(PathChildrenCache.StartMode.BUILD_INITIAL_CACHE);

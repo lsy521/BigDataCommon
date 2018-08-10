@@ -13,26 +13,26 @@ import org.slf4j.LoggerFactory;
 public class ServiceRegistry extends ZookeeperClient {
     private static final Logger logger = LoggerFactory.getLogger(ServiceRegistry.class);
 
-    public ServiceRegistry(String zkAddress) {
-        super(zkAddress);
+    public ServiceRegistry(String zkAddress, Constant constant) {
+        super(zkAddress, constant);
     }
 
-    public void register(String data) {
+    public void register(String data, Constant constant) {
         if (!Strings.isNullOrEmpty(data)) {
-            String flag = createZnode(data);
-            if (!Strings.isNullOrEmpty(flag) && data.contains(Constant.ZK_REGISTRY_WORKER_PATH)) {
+            String flag = createZnode(data, constant);
+            if (!Strings.isNullOrEmpty(flag) && data.contains(constant.getNodePath())) {
                 logger.info("Create znode {} successfull", flag);
             }
         }
     }
 
 
-    private String createZnode(String data) {
+    private String createZnode(String data, Constant constant) {
         try {
             return zkClient.create()
                     .creatingParentContainersIfNeeded()
                     .withMode(CreateMode.EPHEMERAL_SEQUENTIAL)
-                    .forPath(Constant.ZK_REGISTRY_WORKER_PATH, data.getBytes());
+                    .forPath(constant.getNodePath(), data.getBytes());
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

@@ -11,10 +11,16 @@ public class ZookeeperClient {
     private static final Logger logger = LoggerFactory.getLogger(ZookeeperClient.class);
     protected CuratorFramework zkClient;
     private String zkAddress;
+    private Constant constant;
 
-    protected ZookeeperClient(String zkAddress) {
+    protected ZookeeperClient(String zkAddress, Constant constant) {
         this.zkAddress = zkAddress;
+        this.constant = constant;
         this.zkClient = connectZookeeper();
+    }
+
+    public Constant getConstant() {
+        return constant;
     }
 
     private CuratorFramework connectZookeeper() {
@@ -29,7 +35,7 @@ public class ZookeeperClient {
                 .build();
         zkClient.start();
         try {
-            zkClient.checkExists().forPath(Constant.ZK_REGISTRY_ROOT_PATH);
+            zkClient.checkExists().forPath(constant.getRootPath());
         } catch (Exception e) {
             e.printStackTrace();
         }

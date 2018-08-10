@@ -4,6 +4,7 @@ import com.hzgc.common.rpc.client.zk.ServiceDiscovery;
 import com.hzgc.common.rpc.client.proxy.AllObjectProxy;
 import com.hzgc.common.rpc.client.proxy.AsyncObjectProxy;
 import com.hzgc.common.rpc.client.proxy.ObjectProxy;
+import com.hzgc.common.rpc.util.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +21,8 @@ public class RpcClient {
             600L,
             TimeUnit.SECONDS, new ArrayBlockingQueue<>(5));
 
-    public RpcClient(String serverAddress) {
-        this.serviceDiscovery = new ServiceDiscovery(serverAddress);
+    public RpcClient(String serverAddress, Constant constant) {
+        this.serviceDiscovery = new ServiceDiscovery(serverAddress, constant);
     }
 
     public RpcClient(ServiceDiscovery serviceDiscovery) {
@@ -73,7 +74,6 @@ public class RpcClient {
 
     public void stop() {
         threadPoolExecutor.shutdown();
-        ;
         serviceDiscovery.stop();
         ConnectManager.getInstance().stop();
     }

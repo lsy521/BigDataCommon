@@ -9,6 +9,7 @@ import com.hzgc.common.rpc.protocol.RpcRequest;
 import com.hzgc.common.rpc.server.annotation.RpcServiceScanner;
 import com.hzgc.common.rpc.server.zk.ServiceRegistry;
 import com.hzgc.common.rpc.server.netty.RpcServerHandler;
+import com.hzgc.common.rpc.util.Constant;
 import com.hzgc.common.rpc.util.RpcConfig;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -39,20 +40,23 @@ public class RpcServer {
     private Map<String, FastClass> fastClassMap;
     private Map<String, Object> rpcServiceMap = Maps.newHashMap();
     private static ThreadPoolExecutor threadPoolExecutor;
+    private Constant constant;
 
 
-    public RpcServer(String ipAddress, int port, String zkHosts) {
+    public RpcServer(String ipAddress, Constant constant, int port, String zkHosts) {
         this.ipAddress = ipAddress;
         this.port = port;
-        this.serviceRegistry = new ServiceRegistry(zkHosts);
+        this.constant = constant;
+        this.serviceRegistry = new ServiceRegistry(zkHosts, constant);
         this.fastClassMap = scanRpcService(Lists.newArrayList());
         this.rpcServiceMap = registRpcService(this.fastClassMap);
     }
 
-    public RpcServer(String ipAddress, int port, String zkHosts, List<String> filterList) {
+    public RpcServer(String ipAddress, Constant constant, int port, String zkHosts, List<String> filterList) {
         this.ipAddress = ipAddress;
         this.port = port;
-        this.serviceRegistry = new ServiceRegistry(zkHosts);
+        this.constant = constant;
+        this.serviceRegistry = new ServiceRegistry(zkHosts, constant);
         this.fastClassMap = scanRpcService(filterList);
         this.rpcServiceMap = registRpcService(this.fastClassMap);
     }
@@ -65,12 +69,9 @@ public class RpcServer {
         this.ipAddress = ipAddress;
         this.port = port;
         this.serviceRegistry = serviceRegistry;
+        this.constant = serviceRegistry.getConstant();
         this.fastClassMap = scanRpcService(filterList);
         this.rpcServiceMap = registRpcService(this.fastClassMap);
-    }
-
-    public Map<String, Object> getRpcServiceMap() {
-        return rpcServiceMap;
     }
 
     public static void execute(Runnable task) {
@@ -142,7 +143,7 @@ public class RpcServer {
             ChannelFuture future = bootstrap.bind(this.ipAddress, this.port).sync();
             logger.info("Rpc server started on {}, bind ip on {}", this.port, this.ipAddress);
             if (this.serviceRegistry != null) {
-                serviceRegistry.register(this.ipAddress + ":" + this.port);
+                serviceRegistry.register(this.ipAddress + ":" + this.port, constant);
             }
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
