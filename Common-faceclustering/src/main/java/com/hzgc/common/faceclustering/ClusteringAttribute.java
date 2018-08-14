@@ -1,6 +1,7 @@
 package com.hzgc.common.faceclustering;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 每个聚类的信息，每个聚类作为一个对象，包含显示图片url，最早、晚出现时间及ipcId和该聚类中图片数量count(彭聪)
@@ -46,6 +47,20 @@ public class ClusteringAttribute implements Serializable {
      * ignore flag,yes
      */
     private String flag;
+
+    /**
+     * 告警rowkeys
+     */
+    private List<String> rowKeys;
+
+    public List<String> getRowKeys() {
+        return rowKeys;
+    }
+
+    public void setRowKeys(List<String> rowKeys) {
+        this.rowKeys = rowKeys;
+    }
+
 
     public String getClusteringId() {
         return clusteringId;
