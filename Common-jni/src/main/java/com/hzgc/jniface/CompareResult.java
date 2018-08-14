@@ -3,10 +3,11 @@ package com.hzgc.jniface;
 import java.util.ArrayList;
 
 public class CompareResult {
-    //queryList下标
+
+    //调用faceCompareBit方法时传入的featureList中的下标
     private String index;
 
-    //topN 图片信息数据
+    //比对结果集合
     private ArrayList<FaceFeatureInfo> faceFeatureInfoArrayList;
 
     public String getIndex() { return index; }
