@@ -110,11 +110,11 @@ public class CutImageUtil {
 
     public static void main(String[] args) {
         CutImageUtil cutImageUtil = new CutImageUtil(275, 1, 138, 143);//445, 100, 26, 51
-        cutImageUtil.srcpath = "C:\\Users\\g10255\\Desktop\\zzzzz(1).jpg";
-        cutImageUtil.subpath = "C:\\Users\\g10255\\Desktop\\111.jpg";
+        cutImageUtil.srcpath = "C:\\Users\\g10255\\Desktop\\carandpeople\\123456.jpg";
+        cutImageUtil.subpath = "C:\\Users\\g10255\\Desktop\\123456.jpg";
 
         try {
-            String fileSuffix = cutImageUtil.getFileSuffix("C:\\Users\\g10255\\Desktop\\zzzzz(1).jpg");
+            String fileSuffix = cutImageUtil.getFileSuffix("C:\\Users\\g10255\\Desktop\\carandpeople\\123456.jpg");
             System.out.println(fileSuffix);
             cutImageUtil.cut();
         } catch (IOException e) {

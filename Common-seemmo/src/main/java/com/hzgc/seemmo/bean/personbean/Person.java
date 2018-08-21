@@ -9,6 +9,4 @@ import java.io.Serializable;
 public class Person implements Serializable {
 
     private Recognize  recognize;
-    private int type;
-    private String personPath;
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+//安全带
 @Data
 public class Belt implements Serializable {
 

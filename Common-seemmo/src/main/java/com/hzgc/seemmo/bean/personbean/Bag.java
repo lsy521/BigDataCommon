@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.HashMap;
 
-//背包
+//是否拎东西
 @Data
 public class Bag implements Serializable {
 
