@@ -25,15 +25,15 @@ public class ImageToData {
     private static final String url = "http://172.18.18.139:8000/?cmd=recogPic";
 
     //httpClient单例
-    private static synchronized CloseableHttpClient getHttpClient(){
-        if (httpClient == null){
+    private static synchronized CloseableHttpClient getHttpClient() {
+        if (httpClient == null) {
             httpClient = HttpClientBuilder.create().build();
         }
         return httpClient;
     }
 
     //执行post请求
-    public static String executeHttpPost(String url,String imageJsonString){
+    public static String executeHttpPost(String url, String imageJsonString) {
         try {
             httpClient = getHttpClient();
             HttpPost httpPost = new HttpPost(url);
@@ -41,7 +41,7 @@ public class ImageToData {
             stringEntity.setContentType("application/json");
             httpPost.setEntity(stringEntity);
             CloseableHttpResponse res = httpClient.execute(httpPost);
-            if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+            if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 return EntityUtils.toString(res.getEntity());
             }
         } catch (Exception e) {
@@ -52,24 +52,22 @@ public class ImageToData {
 
     //获取数据 0表示获取车的数据，1表示获取人的数据，其他表示获取所有
     @SuppressWarnings("unchecked")
-    public static ImageResult getData(String result,String imagePath,String tag){
+    public static ImageResult getData(String result, String imagePath, String tag) {
         JSONObject jsonObject = JsonUtil.stringToJsonObject(result);
         int code = (int) jsonObject.get("code");
-        if (0 == code){
+        if (0 == code) {
             JSONObject data = (JSONObject) jsonObject.get("data");
-            List<JSONObject> imageResults = (List <JSONObject>) data.get("ImageResults");
+            List<JSONObject> imageResults = (List<JSONObject>) data.get("ImageResults");
             ImageResult imageResult = new ImageResult();
-            if ("0".equals(tag)){
-                List <Vehicle> vehicleList = ImageToData.getCarData(imageResults,imagePath);
+            if ("0".equals(tag)) {
+                List<Vehicle> vehicleList = ImageToData.getCarData(imageResults, imagePath);
                 imageResult.setVehicleList(vehicleList);
-            }
-            else if ("1".equals(tag)){
-                List <Person> personList = ImageToData.getPersonData(imageResults,imagePath);
+            } else if ("1".equals(tag)) {
+                List<Person> personList = ImageToData.getPersonData(imageResults, imagePath);
                 imageResult.setPersonList(personList);
-            }
-            else {
-                List <Vehicle> vehicleList = ImageToData.getCarData(imageResults,imagePath);
-                List <Person> personList = ImageToData.getPersonData(imageResults,imagePath);
+            } else {
+                List<Vehicle> vehicleList = ImageToData.getCarData(imageResults, imagePath);
+                List<Person> personList = ImageToData.getPersonData(imageResults, imagePath);
                 imageResult.setVehicleList(vehicleList);
                 imageResult.setPersonList(personList);
             }
@@ -80,377 +78,377 @@ public class ImageToData {
 
     //车辆数据封装
     @SuppressWarnings("unchecked")
-    public static List<Vehicle> getCarData(List<JSONObject> imageResults,String imagePath) {
-        ArrayList <Vehicle> vehicleList = new ArrayList <>();
+    public static List<Vehicle> getCarData(List<JSONObject> imageResults, String imagePath) {
+        ArrayList<Vehicle> vehicleList = new ArrayList<>();
         if (imageResults.size() > 0) {
-        for (JSONObject js : imageResults) {
-            List <JSONObject> vehicles = (List <JSONObject>) js.get("Vehicles");
-            if (vehicles.size() > 0) {
-            for (JSONObject js1 : vehicles) {
-                Vehicle vehicle_object = new Vehicle();
-                int vehicle_object_type = (int) js1.get("Type");
-                vehicle_object.setVehicle_object_type(String.valueOf(vehicle_object_type));
-                JSONObject recognize = (JSONObject) js1.get("Recognize");
-                JSONObject detect = (JSONObject) js1.get("Detect");
-                JSONObject car = (JSONObject) detect.get("Body");
-                JSONArray rect = (JSONArray) car.get("Rect");
-                JSONObject plate = (JSONObject) recognize.get("Plate");
-                if (null != plate) {
-                    int code = (int) plate.get("Code");
-                    if (0 == code) {
-                        JSONObject color = (JSONObject) plate.get("Color");
-                        vehicle_object.setPlate_color_code((String) color.get("Code"));
-                        //1是false，2是true
-                        if ((boolean) plate.get("Shelter")) {
-                            vehicle_object.setPlate_schelter_code("2");
-                        } else {
-                            vehicle_object.setPlate_schelter_code("1");
+            for (JSONObject js : imageResults) {
+                List<JSONObject> vehicles = (List<JSONObject>) js.get("Vehicles");
+                if (vehicles.size() > 0) {
+                    for (JSONObject js1 : vehicles) {
+                        Vehicle vehicle_object = new Vehicle();
+                        int vehicle_object_type = (int) js1.get("Type");
+                        vehicle_object.setVehicle_object_type(String.valueOf(vehicle_object_type));
+                        JSONObject recognize = (JSONObject) js1.get("Recognize");
+                        JSONObject detect = (JSONObject) js1.get("Detect");
+                        JSONObject car = (JSONObject) detect.get("Body");
+                        JSONArray rect = (JSONArray) car.get("Rect");
+                        JSONObject plate = (JSONObject) recognize.get("Plate");
+                        if (null != plate) {
+                            int code = (int) plate.get("Code");
+                            if (0 == code) {
+                                JSONObject color = (JSONObject) plate.get("Color");
+                                vehicle_object.setPlate_color_code((String) color.get("Code"));
+                                //1是false，2是true
+                                if ((boolean) plate.get("Shelter")) {
+                                    vehicle_object.setPlate_schelter_code("2");
+                                } else {
+                                    vehicle_object.setPlate_schelter_code("1");
+                                }
+                                vehicle_object.setPlate_flag_code(String.valueOf((int) plate.get("Flag")));
+                                vehicle_object.setPlate_licence((String) plate.get("Licence"));
+                                if ((boolean) plate.get("Destain")) {
+                                    vehicle_object.setPlate_destain_code("2");
+                                } else {
+                                    vehicle_object.setPlate_destain_code("1");
+                                }
+                                vehicle_object.setPlate_type_code(String.valueOf((int) plate.get("Type")));
+                            }
                         }
-                        vehicle_object.setPlate_flag_code(String.valueOf((int) plate.get("Flag")));
-                        vehicle_object.setPlate_licence((String) plate.get("Licence"));
-                        if ((boolean) plate.get("Destain")) {
-                            vehicle_object.setPlate_destain_code("2");
-                        } else {
-                            vehicle_object.setPlate_destain_code("1");
+                        JSONObject crash = (JSONObject) recognize.get("Crash");
+                        if (null != crash) {
+                            int code = (int) crash.get("Code");
+                            if (0 == code) {
+                                if ((boolean) crash.get("HasCrash")) {
+                                    vehicle_object.setCrash_code("2");
+                                } else {
+                                    vehicle_object.setCrash_code("1");
+                                }
+                            }
                         }
-                        vehicle_object.setPlate_type_code(String.valueOf((int) plate.get("Type")));
-                    }
-                }
-                JSONObject crash = (JSONObject) recognize.get("Crash");
-                if (null != crash) {
-                    int code = (int) crash.get("Code");
-                    if (0 == code) {
-                        if ((boolean) crash.get("HasCrash")) {
-                            vehicle_object.setCrash_code("2");
-                        } else {
-                            vehicle_object.setCrash_code("1");
+                        JSONObject danger = (JSONObject) recognize.get("Danger");
+                        if (null != danger) {
+                            int code = (int) danger.get("Code");
+                            if (0 == code) {
+                                if ((boolean) danger.get("HasDanger")) {
+                                    vehicle_object.setDanger_code("2");
+                                } else {
+                                    vehicle_object.setDanger_code("1");
+                                }
+                            }
                         }
-                    }
-                }
-                JSONObject danger = (JSONObject) recognize.get("Danger");
-                if (null != danger) {
-                    int code = (int) danger.get("Code");
-                    if (0 == code) {
-                        if ((boolean) danger.get("HasDanger")) {
-                            vehicle_object.setDanger_code("2");
-                        } else {
-                            vehicle_object.setDanger_code("1");
+                        JSONObject color = (JSONObject) recognize.get("Color");
+                        if (null != color) {
+                            int code = (int) color.get("Code");
+                            if (0 == code) {
+                                List<JSONObject> topList = (List<JSONObject>) color.get("TopList");
+                                JSONObject jsonObject1 = topList.get(0);
+                                vehicle_object.setVehicle_color((String) jsonObject1.get("Code"));
+                            }
                         }
-                    }
-                }
-                JSONObject color = (JSONObject) recognize.get("Color");
-                if (null != color) {
-                    int code = (int) color.get("Code");
-                    if (0 == code) {
-                        List <JSONObject> topList = (List <JSONObject>) color.get("TopList");
-                        JSONObject jsonObject1 = topList.get(0);
-                        vehicle_object.setVehicle_color((String) jsonObject1.get("Code"));
-                    }
-                }
-                JSONObject brand = (JSONObject) recognize.get("Brand");
-                if (null != brand) {
-                    int code = (int) brand.get("Code");
-                    if (0 == code) {
-                        List <JSONObject> topList = (List <JSONObject>) brand.get("TopList");
-                        JSONObject jsonObject1 = topList.get(0);
-                        vehicle_object.setBrand_name((String) jsonObject1.get("Name"));
-                    }
-                }
-                JSONObject sunroof = (JSONObject) recognize.get("Sunroof");
-                if (null != sunroof) {
-                    int code = (int) sunroof.get("Code");
-                    if (0 == code) {
-                        List <JSONObject> topList = (List <JSONObject>) sunroof.get("TopList");
-                        JSONObject jsonObject1 = topList.get(0);
-                        vehicle_object.setSunroof_code((String) jsonObject1.get("Code"));
-                    }
-                }
-                JSONObject call = (JSONObject) recognize.get("Call");
-                if (null != call) {
-                    int code = (int) call.get("Code");
-                    if (0 == code) {
-                        if ((boolean) call.get("HasCall")) {
-                            vehicle_object.setCall_code("2");
-                        } else {
-                            vehicle_object.setCall_code("1");
+                        JSONObject brand = (JSONObject) recognize.get("Brand");
+                        if (null != brand) {
+                            int code = (int) brand.get("Code");
+                            if (0 == code) {
+                                List<JSONObject> topList = (List<JSONObject>) brand.get("TopList");
+                                JSONObject jsonObject1 = topList.get(0);
+                                vehicle_object.setBrand_name((String) jsonObject1.get("Name"));
+                            }
                         }
-                    }
-                }
-                JSONObject marker = (JSONObject) recognize.get("Marker");
-                if (null != marker) {
-                    int code = (int) marker.get("Code");
-                    if (0 == code) {
-                        vehicle_object.setMarker_code("2");
-                    } else {
-                        vehicle_object.setMarker_code("1");
-                    }
-                }
-                JSONObject mistake = (JSONObject) recognize.get("Mistake");
-                if (null != mistake) {
-                    int code = (int) mistake.get("Code");
-                    if (0 == code) {
-                        List <JSONObject> topList = (List <JSONObject>) mistake.get("TopList");
-                        JSONObject jsonObject1 = topList.get(0);
-                        vehicle_object.setMistake_code((String) jsonObject1.get("Code"));
-                    }
-                }
-                JSONObject type = (JSONObject) recognize.get("Type");
-                if (null != type) {
-                    int code = (int) type.get("Code");
-                    if (0 == code) {
-                        List <JSONObject> topList = (List <JSONObject>) type.get("TopList");
-                        JSONObject jsonObject1 = topList.get(0);
-                        vehicle_object.setVehicle_type((String) jsonObject1.get("Code"));
-                    }
-                }
-                JSONObject rack = (JSONObject) recognize.get("Rack");
-                if (null != rack) {
-                    int code = (int) rack.get("Code");
-                    if (0 == code) {
-                        List <JSONObject> topList = (List <JSONObject>) rack.get("TopList");
-                        JSONObject jsonObject1 = topList.get(0);
-                        vehicle_object.setRack_code((String) jsonObject1.get("Code"));
-                    }
-                }
-                JSONObject spareTire = (JSONObject) recognize.get("SpareTire");
-                if (null != spareTire) {
-                    int code = (int) spareTire.get("Code");
-                    if (0 == code) {
-                        if ((boolean) spareTire.get("HasSpareTire")) {
-                            vehicle_object.setSpareTire_code("2");
-                        } else {
-                            vehicle_object.setSpareTire_code("1");
+                        JSONObject sunroof = (JSONObject) recognize.get("Sunroof");
+                        if (null != sunroof) {
+                            int code = (int) sunroof.get("Code");
+                            if (0 == code) {
+                                List<JSONObject> topList = (List<JSONObject>) sunroof.get("TopList");
+                                JSONObject jsonObject1 = topList.get(0);
+                                vehicle_object.setSunroof_code((String) jsonObject1.get("Code"));
+                            }
                         }
+                        JSONObject call = (JSONObject) recognize.get("Call");
+                        if (null != call) {
+                            int code = (int) call.get("Code");
+                            if (0 == code) {
+                                if ((boolean) call.get("HasCall")) {
+                                    vehicle_object.setCall_code("2");
+                                } else {
+                                    vehicle_object.setCall_code("1");
+                                }
+                            }
+                        }
+                        JSONObject marker = (JSONObject) recognize.get("Marker");
+                        if (null != marker) {
+                            int code = (int) marker.get("Code");
+                            if (0 == code) {
+                                vehicle_object.setMarker_code("2");
+                            } else {
+                                vehicle_object.setMarker_code("1");
+                            }
+                        }
+                        JSONObject mistake = (JSONObject) recognize.get("Mistake");
+                        if (null != mistake) {
+                            int code = (int) mistake.get("Code");
+                            if (0 == code) {
+                                List<JSONObject> topList = (List<JSONObject>) mistake.get("TopList");
+                                JSONObject jsonObject1 = topList.get(0);
+                                vehicle_object.setMistake_code((String) jsonObject1.get("Code"));
+                            }
+                        }
+                        JSONObject type = (JSONObject) recognize.get("Type");
+                        if (null != type) {
+                            int code = (int) type.get("Code");
+                            if (0 == code) {
+                                List<JSONObject> topList = (List<JSONObject>) type.get("TopList");
+                                JSONObject jsonObject1 = topList.get(0);
+                                vehicle_object.setVehicle_type((String) jsonObject1.get("Code"));
+                            }
+                        }
+                        JSONObject rack = (JSONObject) recognize.get("Rack");
+                        if (null != rack) {
+                            int code = (int) rack.get("Code");
+                            if (0 == code) {
+                                List<JSONObject> topList = (List<JSONObject>) rack.get("TopList");
+                                JSONObject jsonObject1 = topList.get(0);
+                                vehicle_object.setRack_code((String) jsonObject1.get("Code"));
+                            }
+                        }
+                        JSONObject spareTire = (JSONObject) recognize.get("SpareTire");
+                        if (null != spareTire) {
+                            int code = (int) spareTire.get("Code");
+                            if (0 == code) {
+                                if ((boolean) spareTire.get("HasSpareTire")) {
+                                    vehicle_object.setSpareTire_code("2");
+                                } else {
+                                    vehicle_object.setSpareTire_code("1");
+                                }
+                            }
+                        }
+                        JSONObject belt = (JSONObject) recognize.get("Belt");
+                        if (null != belt) {
+                            int code = (int) belt.get("Code");
+                            if (0 == code) {
+                                JSONObject coDriver = (JSONObject) belt.get("CoDriver");
+                                if ((boolean) coDriver.get("NoBelt")) {
+                                    vehicle_object.setBelt_coDriver("2");
+                                } else {
+                                    vehicle_object.setBelt_coDriver("1");
+                                }
+                                JSONObject mainDriver = (JSONObject) belt.get("MainDriver");
+                                if ((boolean) mainDriver.get("NoBelt")) {
+                                    vehicle_object.setBelt_mainDriver("2");
+                                } else {
+                                    vehicle_object.setBelt_mainDriver("1");
+                                }
+                            }
+                        }
+                        //截图车的图片
+                        CutImageUtil cutImageUtil = new CutImageUtil((int) rect.get(0), (int) rect.get(1), (int) rect.get(2), (int) rect.get(3));
+                        cutImageUtil.setSrcpath(imagePath);
+                        try {
+                            byte[] bytes = cutImageUtil.cut();
+                            vehicle_object.setVehicle_data(bytes);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        vehicleList.add(vehicle_object);
                     }
                 }
-                JSONObject belt = (JSONObject) recognize.get("Belt");
-                if (null != belt) {
-                    int code = (int) belt.get("Code");
-                    if (0 == code) {
-                        JSONObject coDriver = (JSONObject) belt.get("CoDriver");
-                        if ((boolean) coDriver.get("NoBelt")) {
-                            vehicle_object.setBelt_coDriver("2");
-                        } else {
-                            vehicle_object.setBelt_coDriver("1");
-                        }
-                        JSONObject mainDriver = (JSONObject) belt.get("MainDriver");
-                        if ((boolean) mainDriver.get("NoBelt")) {
-                            vehicle_object.setBelt_mainDriver("2");
-                        } else {
-                            vehicle_object.setBelt_mainDriver("1");
-                        }
-                    }
-                }
-                //截图车的图片
-                CutImageUtil cutImageUtil = new CutImageUtil((int) rect.get(0), (int) rect.get(1), (int) rect.get(2), (int) rect.get(3));
-                cutImageUtil.setSrcpath(imagePath);
-                try {
-                    byte[] bytes = cutImageUtil.cut();
-                    vehicle_object.setVehicle_data(bytes);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                vehicleList.add(vehicle_object);
             }
         }
-        }
-    }
         return vehicleList;
     }
 
     //行人的数据封装
     @SuppressWarnings("unchecked")
-    public static List<Person> getPersonData(List<JSONObject> imageResults,String imagePath) {
-        ArrayList <Person> personList = new ArrayList <>();
+    public static List<Person> getPersonData(List<JSONObject> imageResults, String imagePath) {
+        ArrayList<Person> personList = new ArrayList<>();
         if (imageResults.size() > 0) {
-        for (JSONObject jsonObject : imageResults) {
-            List <JSONObject> bikes = (List <JSONObject>) jsonObject.get("Bikes");
-            if (bikes.size() > 0) {
-            for (JSONObject js : bikes) {
-                Person person_object = new Person();
-                JSONObject car_detect = (JSONObject) js.get("Detect");
-                int car_code = (int) car_detect.get("Code");
-                JSONArray car_rect = null;
-                if (0 == car_code) {
-                    int car_type = (int) js.get("Type");
-                    person_object.setCar_type(String.valueOf(car_type));
-                    JSONObject car_body = (JSONObject) car_detect.get("Body");
-                    car_rect = (JSONArray) car_body.get("Rect");
-                }
-                List <JSONObject> persons = (List <JSONObject>) js.get("Persons");
-                if (persons.size() > 0) {
-                    for (JSONObject person : persons) {
-                        JSONArray person_rect = null;
-                        JSONObject detect = (JSONObject) person.get("Detect");
-                        if (null != detect) {
-                            int person_code = (int) detect.get("Code");
-                            if (0 == person_code) {
-                                JSONObject body = (JSONObject) detect.get("Body");
-                                person_rect = (JSONArray) body.get("Rect");
-                            }
+            for (JSONObject jsonObject : imageResults) {
+                List<JSONObject> bikes = (List<JSONObject>) jsonObject.get("Bikes");
+                if (bikes.size() > 0) {
+                    for (JSONObject js : bikes) {
+                        Person person_object = new Person();
+                        JSONObject car_detect = (JSONObject) js.get("Detect");
+                        int car_code = (int) car_detect.get("Code");
+                        JSONArray car_rect = null;
+                        if (0 == car_code) {
+                            int car_type = (int) js.get("Type");
+                            person_object.setCar_type(String.valueOf(car_type));
+                            JSONObject car_body = (JSONObject) car_detect.get("Body");
+                            car_rect = (JSONArray) car_body.get("Rect");
                         }
-                        JSONObject recognize = (JSONObject) person.get("Recognize");
+                        List<JSONObject> persons = (List<JSONObject>) js.get("Persons");
+                        if (persons.size() > 0) {
+                            for (JSONObject person : persons) {
+                                JSONArray person_rect = null;
+                                JSONObject detect = (JSONObject) person.get("Detect");
+                                if (null != detect) {
+                                    int person_code = (int) detect.get("Code");
+                                    if (0 == person_code) {
+                                        JSONObject body = (JSONObject) detect.get("Body");
+                                        person_rect = (JSONArray) body.get("Rect");
+                                    }
+                                }
+                                JSONObject recognize = (JSONObject) person.get("Recognize");
 
-                        JSONObject shoulderBag = (JSONObject) recognize.get("ShoulderBag");
-                        if (null != shoulderBag) {
-                            int code = (int) shoulderBag.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) shoulderBag.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setShoulderBag_code((String) jsonObject1.get("Code"));
+                                JSONObject shoulderBag = (JSONObject) recognize.get("ShoulderBag");
+                                if (null != shoulderBag) {
+                                    int code = (int) shoulderBag.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) shoulderBag.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setShoulderBag_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject bottomType = (JSONObject) recognize.get("BottomType");
+                                if (null != bottomType) {
+                                    int code = (int) bottomType.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) bottomType.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setBottomType_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject umbrella = (JSONObject) recognize.get("Umbrella");
+                                if (null != umbrella) {
+                                    int code = (int) umbrella.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) umbrella.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setUmbrella_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject orientation = (JSONObject) recognize.get("Orientation");
+                                if (null != orientation) {
+                                    int code = (int) orientation.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) orientation.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setOrientation_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject messengerBag = (JSONObject) recognize.get("MessengerBag");
+                                if (null != messengerBag) {
+                                    int code = (int) messengerBag.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) messengerBag.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setMessengerBag_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject upperType = (JSONObject) recognize.get("UpperType");
+                                if (null != upperType) {
+                                    int code = (int) upperType.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) upperType.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setUpperType_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject age = (JSONObject) recognize.get("Age");
+                                if (null != age) {
+                                    int code = (int) age.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) age.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setAge_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject upperColor = (JSONObject) recognize.get("UpperColor");
+                                if (null != upperColor) {
+                                    int code = (int) upperColor.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) upperColor.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setUpperColor_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject sex = (JSONObject) recognize.get("Sex");
+                                if (null != sex) {
+                                    int code = (int) sex.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) sex.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setSex_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject hair = (JSONObject) recognize.get("Hair");
+                                if (null != hair) {
+                                    int code = (int) hair.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) hair.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setHair_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject bag = (JSONObject) recognize.get("Bag");
+                                if (null != bag) {
+                                    int code = (int) bag.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) bag.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setBag_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject knapsack = (JSONObject) recognize.get("Knapsack");
+                                if (null != knapsack) {
+                                    int code = (int) knapsack.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) knapsack.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setKnapsack_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject baby = (JSONObject) recognize.get("Baby");
+                                if (null != baby) {
+                                    int code = (int) baby.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) baby.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setBaby_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject hat = (JSONObject) recognize.get("Hat");
+                                if (null != hat) {
+                                    int code = (int) hat.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) hat.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setHat_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                JSONObject bottomColor = (JSONObject) recognize.get("BottomColor");
+                                if (null != bottomColor) {
+                                    int code = (int) bottomColor.get("Code");
+                                    if (0 == code) {
+                                        List<JSONObject> topList = (List<JSONObject>) bottomColor.get("TopList");
+                                        JSONObject jsonObject1 = topList.get(0);
+                                        person_object.setBottomColor_code((String) jsonObject1.get("Code"));
+                                    }
+                                }
+                                CutImageUtil cutImageUtil = null;
+                                if (car_rect != null && person_rect != null) {
+                                    cutImageUtil = new CutImageUtil((int) car_rect.get(0) < (int) person_rect.get(0) ? (int) car_rect.get(0) : (int) person_rect.get(0),
+                                            (int) car_rect.get(1) < (int) person_rect.get(1) ? (int) car_rect.get(1) : (int) person_rect.get(1),
+                                            (int) car_rect.get(2) > (int) person_rect.get(2) ? (int) car_rect.get(2) : (int) person_rect.get(2),
+                                            (int) car_rect.get(3) > (int) person_rect.get(3) ? (int) car_rect.get(3) : (int) person_rect.get(3));
+                                    cutImageUtil.setSrcpath(imagePath);
+                                } else {
+                                    cutImageUtil = new CutImageUtil((int) person_rect.get(0), (int) person_rect.get(1), (int) person_rect.get(2), (int) person_rect.get(3));
+                                    cutImageUtil.setSrcpath(imagePath);
+                                }
+                                try {
+                                    byte[] bytes = cutImageUtil.cut();
+                                    person_object.setCar_data(bytes);
+                                    System.out.println(person_object);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                personList.add(person_object);
                             }
                         }
-                        JSONObject bottomType = (JSONObject) recognize.get("BottomType");
-                        if (null != bottomType) {
-                            int code = (int) bottomType.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) bottomType.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setBottomType_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject umbrella = (JSONObject) recognize.get("Umbrella");
-                        if (null != umbrella) {
-                            int code = (int) umbrella.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) umbrella.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setUmbrella_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject orientation = (JSONObject) recognize.get("Orientation");
-                        if (null != orientation) {
-                            int code = (int) orientation.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) orientation.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setOrientation_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject messengerBag = (JSONObject) recognize.get("MessengerBag");
-                        if (null != messengerBag) {
-                            int code = (int) messengerBag.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) messengerBag.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setMessengerBag_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject upperType = (JSONObject) recognize.get("UpperType");
-                        if (null != upperType) {
-                            int code = (int) upperType.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) upperType.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setUpperType_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject age = (JSONObject) recognize.get("Age");
-                        if (null != age) {
-                            int code = (int) age.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) age.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setAge_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject upperColor = (JSONObject) recognize.get("UpperColor");
-                        if (null != upperColor) {
-                            int code = (int) upperColor.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) upperColor.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setUpperColor_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject sex = (JSONObject) recognize.get("Sex");
-                        if (null != sex) {
-                            int code = (int) sex.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) sex.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setSex_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject hair = (JSONObject) recognize.get("Hair");
-                        if (null != hair) {
-                            int code = (int) hair.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) hair.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setHair_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject bag = (JSONObject) recognize.get("Bag");
-                        if (null != bag) {
-                            int code = (int) bag.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) bag.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setBag_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject knapsack = (JSONObject) recognize.get("Knapsack");
-                        if (null != knapsack) {
-                            int code = (int) knapsack.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) knapsack.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setKnapsack_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject baby = (JSONObject) recognize.get("Baby");
-                        if (null != baby) {
-                            int code = (int) baby.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) baby.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setBaby_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject hat = (JSONObject) recognize.get("Hat");
-                        if (null != hat) {
-                            int code = (int) hat.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) hat.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setHat_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        JSONObject bottomColor = (JSONObject) recognize.get("BottomColor");
-                        if (null != bottomColor) {
-                            int code = (int) bottomColor.get("Code");
-                            if (0 == code) {
-                                List <JSONObject> topList = (List <JSONObject>) bottomColor.get("TopList");
-                                JSONObject jsonObject1 = topList.get(0);
-                                person_object.setBottomColor_code((String) jsonObject1.get("Code"));
-                            }
-                        }
-                        CutImageUtil cutImageUtil = null;
-                        if (car_rect != null && person_rect != null) {
-                            cutImageUtil = new CutImageUtil((int) car_rect.get(0) < (int) person_rect.get(0) ? (int) car_rect.get(0):(int) person_rect.get(0),
-                                    (int) car_rect.get(1) < (int) person_rect.get(1) ? (int) car_rect.get(1):(int) person_rect.get(1),
-                                    (int) car_rect.get(2) > (int) person_rect.get(2) ? (int) car_rect.get(2):(int) person_rect.get(2),
-                                    (int) car_rect.get(3) > (int) person_rect.get(3) ? (int) car_rect.get(3):(int) person_rect.get(3));
-                            cutImageUtil.setSrcpath(imagePath);
-                        } else {
-                            cutImageUtil = new CutImageUtil((int) person_rect.get(0), (int) person_rect.get(1), (int) person_rect.get(2), (int) person_rect.get(3));
-                            cutImageUtil.setSrcpath(imagePath);
-                        }
-                        try {
-                            byte[] bytes = cutImageUtil.cut();
-                            person_object.setCar_data(bytes);
-                            System.out.println(person_object);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        personList.add(person_object);
                     }
                 }
             }
         }
-        }
-    }
         return personList;
     }
 
@@ -460,9 +458,9 @@ public class ImageToData {
     * @param tag:0表示车只提取车属性，1表示提取人属性，其余表示提取所有
     * 获取图片的结构化信息
     * */
-    public static ImageResult getImageResult(String url,String imagePath,String tag){
+    public static ImageResult getImageResult(String url, String imagePath, String tag) {
         String imageJsonString = JsonUtil.objectToJsonString(imagePath);
         String s = ImageToData.executeHttpPost(url, imageJsonString);
-        return ImageToData.getData(s,imagePath,tag);
+        return ImageToData.getData(s, imagePath, tag);
     }
 }

@@ -5,7 +5,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
 
-public class ImageInfo implements Serializable{
+public class ImageInfo implements Serializable {
 
     @JSONField(name = "ImageType")
     private Integer ImageType;

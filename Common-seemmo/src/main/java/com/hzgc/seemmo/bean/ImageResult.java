@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 public class ImageResult implements Serializable {
 
-    private List <Vehicle> vehicleList;
+    private List<Vehicle> vehicleList;
 
-    private List <Person> personList;
+    private List<Person> personList;
 
 }
