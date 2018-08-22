@@ -8,7 +8,7 @@ import java.util.Map;
 @Data
 public class ReadPersonInfo {
 
-    private static final Map<String,Map<String,String>> personMap = new HashMap<>();
+    private final Map<String,Map<String,String>> personMap = new HashMap<>();
     public ReadPersonInfo() {
         personMap.put("age",ReadPersonInfo.ageInfo());
         personMap.put("baby",ReadPersonInfo.babyInfo());
@@ -25,7 +25,7 @@ public class ReadPersonInfo {
         personMap.put("umbrella",ReadPersonInfo.umbrellaInfo());
         personMap.put("upperColor",ReadPersonInfo.upperColorInfo());
         personMap.put("upperType",ReadPersonInfo.upperTypeInfo());
-        personMap.put("type",ReadPersonInfo.typeInfo());
+        personMap.put("type",ReadPersonInfo.objectTypeInfo());
     }
 
     private static Map<String,String> ageInfo(){
@@ -105,7 +105,7 @@ public class ReadPersonInfo {
     private static Map<String,String> messengerBagInfo() {
         HashMap <String, String> messengerBagMap = new HashMap <>();
         messengerBagMap.put("1","非斜挎包");
-        messengerBagMap.put("","");
+        messengerBagMap.put("2","斜挎包");
         return messengerBagMap;
     }
 
@@ -127,6 +127,7 @@ public class ReadPersonInfo {
     private static Map<String,String> shoulderBagInfo() {
         HashMap <String, String> shoulderBagMap = new HashMap <>();
         shoulderBagMap.put("1","非单肩包");
+        shoulderBagMap.put("2","单肩包");
         return shoulderBagMap;
     }
 
@@ -151,18 +152,18 @@ public class ReadPersonInfo {
         return upperColorMap;
     }
 
-    private static Map<String,String> typeInfo() {
-        HashMap <String, String> typeMap = new HashMap <>();
-        typeMap.put("0","未知类型");
-        typeMap.put("1","行人");
-        typeMap.put("2","自行车");
-        typeMap.put("3","摩托车");
-        typeMap.put("4","小汽车");
-        typeMap.put("5","三轮车");
-        typeMap.put("6","巴士");
-        typeMap.put("7","面包车");
-        typeMap.put("8","卡车");
-        return typeMap;
+    private static Map<String,String> objectTypeInfo() {
+        HashMap <String, String> objectTypeMap = new HashMap <>();
+        objectTypeMap.put("0","未知类型");
+        objectTypeMap.put("1","行人");
+        objectTypeMap.put("2","自行车");
+        objectTypeMap.put("3","摩托车");
+        objectTypeMap.put("4","小汽车");
+        objectTypeMap.put("5","三轮车");
+        objectTypeMap.put("6","巴士");
+        objectTypeMap.put("7","面包车");
+        objectTypeMap.put("8","卡车");
+        return objectTypeMap;
     }
 
     private static Map<String,String> upperTypeInfo() {

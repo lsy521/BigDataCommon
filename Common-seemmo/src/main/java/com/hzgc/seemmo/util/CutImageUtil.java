@@ -8,10 +8,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Iterator;
 
 @Data
@@ -47,7 +44,7 @@ public class CutImageUtil {
     /**
      * 对图片裁剪，并把裁剪完新图片保存 。
      */
-    public String cut()throws IOException {
+    public byte[] cut()throws IOException {
 
         FileInputStream is =  null ;
         ImageInputStream iis = null ;
@@ -96,10 +93,12 @@ public class CutImageUtil {
              * 它作为一个完整的 BufferedImage 返回。
              */
             BufferedImage bi=reader.read(0,param);
-
             // 保存新图片
-            ImageIO.write(bi,"jpg",new File(subpath));
-            return subpath;
+//            ImageIO.write(bi,"jpg",new File(subpath));
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(bi,"jpg", os);
+            byte[] bytes = os.toByteArray();
+            return bytes;
         } finally {
             if (is != null )
                 is.close() ;
@@ -108,19 +107,19 @@ public class CutImageUtil {
         }
     }
 
-    public static void main(String[] args) {
-        CutImageUtil cutImageUtil = new CutImageUtil(275, 1, 138, 143);//445, 100, 26, 51
-        cutImageUtil.srcpath = "C:\\Users\\g10255\\Desktop\\carandpeople\\123456.jpg";
-        cutImageUtil.subpath = "C:\\Users\\g10255\\Desktop\\123456.jpg";
-
-        try {
-            String fileSuffix = cutImageUtil.getFileSuffix("C:\\Users\\g10255\\Desktop\\carandpeople\\123456.jpg");
-            System.out.println(fileSuffix);
-            cutImageUtil.cut();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        CutImageUtil cutImageUtil = new CutImageUtil(2051, 676, 288, 553);
+//        cutImageUtil.srcpath = "C:\\Users\\g10255\\Desktop\\100.jpg";
+//        cutImageUtil.subpath = "C:\\Users\\g10255\\Desktop\\103.jpg";
+//
+//        try {
+//            String fileSuffix = cutImageUtil.getFileSuffix("C:\\Users\\g10255\\Desktop\\100.jpg");
+//            System.out.println(fileSuffix);
+//            cutImageUtil.cut();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     private String getFileSuffix(final String path) throws IOException {
         String result = "";
         String hex="";
