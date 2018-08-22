@@ -8,7 +8,7 @@ public class FaceAttribute implements Serializable {
     //特征值
     private float[] feature;
 
-    //Bit类型的特征值
+    //bit类型的特征值
     private byte[] bitFeature;
 
     //头发颜色

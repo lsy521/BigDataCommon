@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AuthSyncProperties {
     final static String AUTH_SYNC = "auth.sync";
 
-    private String basePackages = "com.hzgc.service";
+    private String basePackages = "com.hzgc";
     private String authSyncURL = "http://auth-center/permission/sync";
     private String resourceSyncURL = "http://auth-center/resource/sync";
 }
