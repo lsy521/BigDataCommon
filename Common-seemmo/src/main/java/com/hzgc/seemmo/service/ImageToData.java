@@ -50,12 +50,6 @@ public class ImageToData {
         return null;
     }
 
-    //字节数组获取图片信息
-    public static String getImageResult(String url,byte[] bytes){
-        String imageJsonString = JsonUtil.objectToJsonString(bytes);
-        return ImageToData.executeHttpPost(url, imageJsonString);
-    }
-
     //获取数据 0表示获取车的数据，1表示获取人的数据，其他表示获取所有
     @SuppressWarnings("unchecked")
     public static ImageResult getData(String result,String imagePath,String tag){
