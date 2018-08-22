@@ -48,20 +48,6 @@ public class ClusteringAttribute implements Serializable {
      */
     private String flag;
 
-    /**
-     * 告警rowkeys
-     */
-    private List<String> rowKeys;
-
-    public List<String> getRowKeys() {
-        return rowKeys;
-    }
-
-    public void setRowKeys(List<String> rowKeys) {
-        this.rowKeys = rowKeys;
-    }
-
-
     public String getClusteringId() {
         return clusteringId;
     }
