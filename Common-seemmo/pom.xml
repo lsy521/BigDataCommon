@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hzgc.common</groupId>
-    <artifactId>Common-seemmo</artifactId>
+    <artifactId>common-seemmo</artifactId>
 
     <dependencies>
         <dependency>

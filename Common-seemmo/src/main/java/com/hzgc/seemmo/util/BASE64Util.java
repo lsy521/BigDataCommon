@@ -26,7 +26,7 @@ public class BASE64Util {
     }
 
     //根据图片字节数组进行提特征
-    public static String getImageStr(byte[] bytes){
+    public static String getImageStr(byte[] bytes) {
         BASE64Encoder encoder = new BASE64Encoder();
         return encoder.encode(bytes);
     }
