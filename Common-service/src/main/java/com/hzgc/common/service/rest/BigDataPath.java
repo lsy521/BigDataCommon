@@ -60,6 +60,8 @@ public class BigDataPath {
     public static final String FEATURE_EXTRACT_FTP = "/extract_ftp";
     public static final String FACE_ATTRIBUTE = "/attribute";
     public static final String FEATURE_EXTRACT_BYTES = "/extract_bytes";
+    public static final String CAR_ATTRIBUTE = "/car_attribute";
+    public static final String CAR_CAPTURE = "/car_capture";
 
     /**
      * StaRepo模块请求路径

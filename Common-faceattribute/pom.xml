@@ -30,6 +30,11 @@
             <artifactId>common-util</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.hzgc.common</groupId>
+            <artifactId>Common-seemmo</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>
