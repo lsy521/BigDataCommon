@@ -51,7 +51,7 @@ public class ResidentUtil implements Serializable {
             while (resultSet.next()) {
                 String rowKey = resultSet.getString("id");
                 String region = resultSet.getString("region");
-                Array array = resultSet.getArray("featrue");
+                Array array = resultSet.getArray("feature");
                 float[] feature = null;
                 if (array != null) {
                     feature = (float[]) ((float[]) array.getArray());
@@ -89,11 +89,11 @@ public class ResidentUtil implements Serializable {
                     preparedStatement.setTimestamp(2, timestamp);
                     preparedStatement.addBatch();
                     if (i % 500 == 0) {
-                        preparedStatement.executeQuery();
+                        preparedStatement.executeBatch();
                         connection.commit();
                     }
                 }
-                preparedStatement.executeQuery();
+                preparedStatement.executeBatch();
                 connection.commit();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -41,6 +41,8 @@ public class BigDataPath {
     public static final String PEOPLEMANAGER_CAPTUREHISTORY="/peoplemanager_capturehistory";
     public static final String PEOPLEMANAGER_RESIDENTSEARCH="/peoplemanager_residentsearch";
     public static final String PEOPLEMANAGER_GETRESIDENTPICTURE="/peoplemanager_getresidentpicture";
+    public static final String PEOPLEMANAGER_CAPTURELOCUS="/peoplemanager_capturelocus";
+
 
     /**
      * Device模块请求路径
