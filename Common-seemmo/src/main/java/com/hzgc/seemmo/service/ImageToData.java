@@ -22,7 +22,6 @@ import java.util.List;
 public class ImageToData {
 
     private static CloseableHttpClient httpClient = null;
-    private static final String url = "http://172.18.18.139:8000/?cmd=recogPic";
 
     //httpClient单例
     private static synchronized CloseableHttpClient getHttpClient() {
@@ -239,14 +238,16 @@ public class ImageToData {
                                 }
                             }
                         }
-                        //截图车的图片
-                        CutImageUtil cutImageUtil = new CutImageUtil((int) rect.get(0), (int) rect.get(1), (int) rect.get(2), (int) rect.get(3));
-                        cutImageUtil.setSrcpath(imagePath);
-                        try {
-                            byte[] bytes = cutImageUtil.cut();
-                            vehicle_object.setVehicle_data(bytes);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if (null != imagePath && imagePath.length() > 0) {
+                            //截图车的图片
+                            CutImageUtil cutImageUtil = new CutImageUtil((int) rect.get(0), (int) rect.get(1), (int) rect.get(2), (int) rect.get(3));
+                            cutImageUtil.setSrcpath(imagePath);
+                            try {
+                                byte[] bytes = cutImageUtil.cut();
+                                vehicle_object.setVehicle_data(bytes);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                         vehicleList.add(vehicle_object);
                     }
@@ -424,23 +425,24 @@ public class ImageToData {
                                         person_object.setBottomColor_code((String) jsonObject1.get("Code"));
                                     }
                                 }
-                                CutImageUtil cutImageUtil = null;
-                                if (car_rect != null && person_rect != null) {
-                                    cutImageUtil = new CutImageUtil((int) car_rect.get(0) < (int) person_rect.get(0) ? (int) car_rect.get(0) : (int) person_rect.get(0),
-                                            (int) car_rect.get(1) < (int) person_rect.get(1) ? (int) car_rect.get(1) : (int) person_rect.get(1),
-                                            (int) car_rect.get(2) > (int) person_rect.get(2) ? (int) car_rect.get(2) : (int) person_rect.get(2),
-                                            (int) car_rect.get(3) > (int) person_rect.get(3) ? (int) car_rect.get(3) : (int) person_rect.get(3));
-                                    cutImageUtil.setSrcpath(imagePath);
-                                } else {
-                                    cutImageUtil = new CutImageUtil((int) person_rect.get(0), (int) person_rect.get(1), (int) person_rect.get(2), (int) person_rect.get(3));
-                                    cutImageUtil.setSrcpath(imagePath);
-                                }
-                                try {
-                                    byte[] bytes = cutImageUtil.cut();
-                                    person_object.setCar_data(bytes);
-                                    System.out.println(person_object);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                if (null != imagePath && imagePath.length() > 0) {
+                                    CutImageUtil cutImageUtil;
+                                    if (car_rect != null && person_rect != null) {
+                                        cutImageUtil = new CutImageUtil((int) car_rect.get(0) < (int) person_rect.get(0) ? (int) car_rect.get(0) : (int) person_rect.get(0),
+                                                (int) car_rect.get(1) < (int) person_rect.get(1) ? (int) car_rect.get(1) : (int) person_rect.get(1),
+                                                (int) car_rect.get(2) > (int) person_rect.get(2) ? (int) car_rect.get(2) : (int) person_rect.get(2),
+                                                (int) car_rect.get(3) > (int) person_rect.get(3) ? (int) car_rect.get(3) : (int) person_rect.get(3));
+                                        cutImageUtil.setSrcpath(imagePath);
+                                    } else {
+                                        cutImageUtil = new CutImageUtil((int) person_rect.get(0), (int) person_rect.get(1), (int) person_rect.get(2), (int) person_rect.get(3));
+                                        cutImageUtil.setSrcpath(imagePath);
+                                    }
+                                    try {
+                                        byte[] bytes = cutImageUtil.cut();
+                                        person_object.setCar_data(bytes);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                                 personList.add(person_object);
                             }
@@ -462,5 +464,11 @@ public class ImageToData {
         String imageJsonString = JsonUtil.objectToJsonString(imagePath);
         String s = ImageToData.executeHttpPost(url, imageJsonString);
         return ImageToData.getData(s, imagePath, tag);
+    }
+
+    public static ImageResult getImageResult(String url, byte[] bytes, String tag){
+        String imageJsonString = JsonUtil.objectToJsonString(bytes);
+        String s = ImageToData.executeHttpPost(url, imageJsonString);
+        return ImageToData.getData(s, null, tag);
     }
 }
