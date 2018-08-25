@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.*;
 
 import org.apache.log4j.Logger;
-import sun.rmi.runtime.Log;
 
 public class ResidentUtil implements Serializable {
     private static Logger LOG = Logger.getLogger(ResidentUtil.class);
