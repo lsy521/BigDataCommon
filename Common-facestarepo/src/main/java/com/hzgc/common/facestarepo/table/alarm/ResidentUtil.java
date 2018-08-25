@@ -3,9 +3,9 @@ package com.hzgc.common.facestarepo.table.alarm;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
 
 import org.apache.log4j.Logger;
+import sun.rmi.runtime.Log;
 
 public class ResidentUtil implements Serializable {
     private static Logger LOG = Logger.getLogger(ResidentUtil.class);
@@ -112,4 +112,49 @@ public class ResidentUtil implements Serializable {
         }
     }
 
+    public void getOfflineAlarmAndUpsertStatus(long time) {
+        if (time != 0L) {
+            Timestamp offlineTime = new Timestamp(System.currentTimeMillis() - time);
+            String sql = "select id from peoplemanager where updatetime <= ?";
+            String sql1 = "upsert into peoplemanager (id, status) values (?,?)";
+            List<String> idList = new ArrayList<String>();
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            PreparedStatement preparedStatement1 = null;
+            ResultSet resultSet = null;
+            try {
+                connection = PhoenixJDBCUtil.getPhoenixJdbcConn(jdbcUrl);
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setObject(1, offlineTime);
+                resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    idList.add(resultSet.getString("id"));
+                }
+                for (String id : idList) {
+                    preparedStatement1 = connection.prepareStatement(sql1);
+                    preparedStatement1.setString(1, id);
+                    preparedStatement1.setInt(2, 1);
+                    preparedStatement1.addBatch();
+                    preparedStatement1.executeBatch();
+                    connection.commit();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (preparedStatement != null && !preparedStatement.isClosed()) {
+                        preparedStatement.close();
+                    }
+                    if (connection != null && !connection.isClosed()) {
+                        connection.close();
+                    }
+                    if (resultSet != null && !resultSet.isClosed()) {
+                        resultSet.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
