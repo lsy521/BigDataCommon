@@ -27,6 +27,7 @@ public class BigDataPath {
     public static final String PEOPLEIN_DELETE = "/peoplein_delete";
     public static final String PEOPLEIN_IGNORE = "/peoplein_ignore";
     public static final String PEOPLEIN_MOVEIN="/peoplein_movein";
+    public static final String PEOPLEIN_LOCUS="/peoplein_locus";
 
     public static final String PEOPLEMANAGER_SAVEPLAN ="/peoplemanager_saveplan";
     public static final String PEOPLEMANAGER_SEARCHPLAN = "/peoplemanager_searchplan";

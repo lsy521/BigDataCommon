@@ -2,8 +2,8 @@ package com.hzgc.common.facestarepo.table.alarm;
 
 import java.io.Serializable;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 
@@ -77,13 +77,13 @@ public class ResidentUtil implements Serializable {
 
     public int updatePeopleManagerTime(List<String> rowkeys) {
         if (rowkeys != null && rowkeys.size() > 0) {
+            LOG.info("The people need to update's rowkey is :" + rowkeys);
             String sql = "upsert into peoplemanager (id, updatetime) values (?,?)";
             PreparedStatement preparedStatement = null;
             try {
                 Connection connection = PhoenixJDBCUtil.getPhoenixJdbcConn(jdbcUrl);
                 preparedStatement = connection.prepareStatement(sql);
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
                 for (int i = 0; i < rowkeys.size(); ++i) {
                     preparedStatement.setString(1, (String) rowkeys.get(i));
                     preparedStatement.setTimestamp(2, timestamp);
