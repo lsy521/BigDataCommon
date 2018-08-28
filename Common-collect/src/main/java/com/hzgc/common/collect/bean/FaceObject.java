@@ -1,6 +1,6 @@
 package com.hzgc.common.collect.bean;
 
-import com.hzgc.jni.FaceAttribute;
+import com.hzgc.jniface.FaceAttribute;
 
 import java.io.Serializable;
 
