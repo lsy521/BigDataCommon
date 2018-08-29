@@ -114,4 +114,10 @@ public class BigDataPath {
      * Dispatch模块请求路径
      */
     public static final String ALARM__QUERY = "/alarm_info";
+
+    /**
+     *Discar模块请求路径
+     */
+    public static final String DYNCAR_CAPTURE_HISTORY = "/vehicle_history";
+
 }
