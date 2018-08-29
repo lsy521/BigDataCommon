@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class VehicleTable implements Serializable{
 
     //es索引
-    public static final String VEHICLE_INDEX = "car";
+    public static final String VEHICLE_INDEX = "vehicle";
     //es类型
     public static final String VEHICLE_TYPE = "recognize";
     //设备id
