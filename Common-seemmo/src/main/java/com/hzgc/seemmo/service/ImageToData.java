@@ -182,15 +182,15 @@ public class ImageToData {
                                 vehicle_object.setMarker_code("1");
                             }
                         }
-//                        JSONObject mistake = (JSONObject) recognize.get("Mistake");
-//                        if (null != mistake) {
-//                            int code = (int) mistake.get("Code");
-//                            if (0 == code) {
-//                                List<JSONObject> topList = (List<JSONObject>) mistake.get("TopList");
-//                                JSONObject jsonObject1 = topList.get(0);
-//                                vehicle_object.setMistake_code((String) jsonObject1.get("Code"));
-//                            }
-//                        }
+                        JSONObject mistake = (JSONObject) recognize.get("Mistake");
+                        if (null != mistake) {
+                            int code = (int) mistake.get("Code");
+                            if (0 == code) {
+                                List<JSONObject> topList = (List<JSONObject>) mistake.get("TopList");
+                                JSONObject jsonObject1 = topList.get(0);
+                                vehicle_object.setMistake_code((String) jsonObject1.get("Code"));
+                            }
+                        }
                         JSONObject type = (JSONObject) recognize.get("Type");
                         if (null != type) {
                             int code = (int) type.get("Code");
@@ -209,17 +209,17 @@ public class ImageToData {
                                 vehicle_object.setRack_code((String) jsonObject1.get("Code"));
                             }
                         }
-//                        JSONObject spareTire = (JSONObject) recognize.get("SpareTire");
-//                        if (null != spareTire) {
-//                            int code = (int) spareTire.get("Code");
-//                            if (0 == code) {
-//                                if ((boolean) spareTire.get("HasSpareTire")) {
-//                                    vehicle_object.setSparetire_code("2");
-//                                } else {
-//                                    vehicle_object.setSparetire_code("1");
-//                                }
-//                            }
-//                        }
+                        JSONObject spareTire = (JSONObject) recognize.get("SpareTire");
+                        if (null != spareTire) {
+                            int code = (int) spareTire.get("Code");
+                            if (0 == code) {
+                                if ((boolean) spareTire.get("HasSpareTire")) {
+                                    vehicle_object.setSparetire_code("2");
+                                } else {
+                                    vehicle_object.setSparetire_code("1");
+                                }
+                            }
+                        }
                         JSONObject belt = (JSONObject) recognize.get("Belt");
                         if (null != belt) {
                             int code = (int) belt.get("Code");

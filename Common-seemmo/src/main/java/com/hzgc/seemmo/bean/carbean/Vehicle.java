@@ -41,9 +41,9 @@ public class Vehicle implements Serializable {
     //行李架
     private String rack_code;
     //备用轮胎
-//    private String sparetire_code;
+    private String sparetire_code;
     //车辆行驶方向
-//    private String mistake_code;
+    private String mistake_code;
     //天窗
     private String sunroof_code;
     //车辆类型
