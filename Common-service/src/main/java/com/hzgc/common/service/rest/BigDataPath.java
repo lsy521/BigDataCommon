@@ -50,6 +50,7 @@ public class BigDataPath {
     public static final String DYNREPO_SEARCHRESULT = "/search_result";
     public static final String DYNREPO_GETPICTURE = "/origin_picture";
     public static final String DYNREPO_HISTORY = "/capture_history";
+    public static final String CAR_DYNREPO_HISTORY = "/car_capture_history";
     public static final String DYNREPO_SEARCHHISTORY="/search_history";
     public static final String DYNREPO_CAPTURE_LASTTIME="/capture_last_time";
 
@@ -62,6 +63,7 @@ public class BigDataPath {
     public static final String FEATURE_EXTRACT_BYTES = "/extract_bytes";
     public static final String CAR_ATTRIBUTE = "/car_attribute";
     public static final String CAR_CAPTURE = "/car_capture";
+    public static final String CAR_EXTRACT = "/car_extract";
 
     /**
      * StaRepo模块请求路径
