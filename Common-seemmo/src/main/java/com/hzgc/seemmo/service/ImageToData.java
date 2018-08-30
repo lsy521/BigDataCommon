@@ -489,11 +489,11 @@ public class ImageToData {
     }
 
     /*
-    * @param url:算法提取路径
-    * @param imagePath:图片路径
-    * @param tag:0表示车只提取车属性，1表示提取人属性，其余表示提取所有
-    * 获取图片的结构化信息
-    * */
+     * @param url:算法提取路径
+     * @param imagePath:图片路径
+     * @param tag:0表示车只提取车属性，1表示提取人属性，其余表示提取所有
+     * 获取图片的结构化信息
+     * */
     public static ImageResult getImageResult(String url, String imagePath, String tag) {
         String imageJsonString = JsonUtil.objectToJsonString(imagePath);
         String s = ImageToData.executeHttpPost(url, imageJsonString);
