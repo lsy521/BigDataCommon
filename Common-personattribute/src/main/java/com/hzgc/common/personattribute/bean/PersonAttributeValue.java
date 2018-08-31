@@ -3,10 +3,8 @@ package com.hzgc.common.personattribute.bean;
 import java.io.Serializable;
 
 public class PersonAttributeValue implements Serializable {
-
     private  String desc;
     private  String code;
-
 
     public String getDesc() {
         return desc;

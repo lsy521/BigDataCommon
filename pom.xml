@@ -31,6 +31,7 @@
         <module>Common-rpc</module>
         <module>Common-seemmo</module>
         <module>Common-personattribute</module>
+        <module>Common-carattribute</module>
     </modules>
 
     <properties>

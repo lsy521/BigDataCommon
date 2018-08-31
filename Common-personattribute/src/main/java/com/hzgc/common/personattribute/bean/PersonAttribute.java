@@ -4,15 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class PersonAttribute implements Serializable {
-
     private String desc;
-
     private String identify;
-
     private PersonLogistic personLogistic;
-
     private List<PersonAttributeValue> values;
-
 
     public String getDesc() {
         return desc;
