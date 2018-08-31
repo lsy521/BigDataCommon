@@ -142,4 +142,12 @@ public class BigDataPath {
      */
     public static final String DYNCAR_CAPTURE_HISTORY = "/vehicle_history";
 
+    /**
+     * DynPerson模块请求路径
+     */
+    public static final String PERSON_ATTRIBUTE= "/person_attribute" ;
+    public static final String CAPTURE_HISTORY= "/person_capture_history" ;
+    public static final String PERSON_FEATURE_EXTRACT_BIN = "/person_extract_bin";
+
+
 }
