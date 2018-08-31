@@ -1,6 +1,7 @@
 package com.hzgc.common.service.api.service;
 
 import com.hzgc.common.service.api.bean.DeviceDTO;
+import com.hzgc.common.service.api.bean.RegionDTO;
 import com.hzgc.common.service.api.bean.WebgisMapPointDTO;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
@@ -117,6 +118,21 @@ public class DeviceQueryService {
                     new HttpEntity<>(deviceIds),
                     parameterizedTypeReference);
             log.info("responseEntity's Body is :" + responseEntity.getBody());
+            return responseEntity.getBody();
+        }
+        return new HashMap<>();
+    }
+
+    @SuppressWarnings("unused")
+    public Map<Long,RegionDTO> getRegionNameByRegionId(List<Long> regionIds){
+        if (regionIds != null && regionIds.size() > 0){
+            ParameterizedTypeReference<Map<Long,RegionDTO>> parameterizedTypeReference = new ParameterizedTypeReference<Map<Long, RegionDTO>>() {
+            };
+            ResponseEntity<Map<Long,RegionDTO>> responseEntity = restTemplate.exchange("http://region/internal/region/query_region_by_id",
+                    HttpMethod.POST,
+                    new HttpEntity<>(regionIds),
+                    parameterizedTypeReference);
+            log.info("responseEntity's Body is : " + responseEntity.getBody());
             return responseEntity.getBody();
         }
         return new HashMap<>();

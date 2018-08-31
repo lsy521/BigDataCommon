@@ -6,9 +6,9 @@ public class CarAttribute implements Serializable {
     //车辆对象类型
     private String vehicle_object_type;
     //主驾驶安全带
-    private String belt_mainDriver;
+    private String belt_maindriver;
     //副驾驶安全带
-    private String belt_coDriver;
+    private String belt_codriver;
     //车的商标
     private String brand_name;
     //打电话
@@ -36,7 +36,7 @@ public class CarAttribute implements Serializable {
     //行李架
     private String rack_code;
     //备用轮胎
-    private String spareTire_code;
+    private String sparetire_code;
     //车辆行驶方向
     private String mistake_code;
     //天窗
@@ -51,22 +51,6 @@ public class CarAttribute implements Serializable {
 
     public void setVehicle_object_type(String vehicle_object_type) {
         this.vehicle_object_type = vehicle_object_type;
-    }
-
-    public String getBelt_mainDriver() {
-        return belt_mainDriver;
-    }
-
-    public void setBelt_mainDriver(String belt_mainDriver) {
-        this.belt_mainDriver = belt_mainDriver;
-    }
-
-    public String getBelt_coDriver() {
-        return belt_coDriver;
-    }
-
-    public void setBelt_coDriver(String belt_coDriver) {
-        this.belt_coDriver = belt_coDriver;
     }
 
     public String getBrand_name() {
@@ -173,14 +157,6 @@ public class CarAttribute implements Serializable {
         this.rack_code = rack_code;
     }
 
-    public String getSpareTire_code() {
-        return spareTire_code;
-    }
-
-    public void setSpareTire_code(String spareTire_code) {
-        this.spareTire_code = spareTire_code;
-    }
-
     public String getMistake_code() {
         return mistake_code;
     }
@@ -205,29 +181,50 @@ public class CarAttribute implements Serializable {
         this.vehicle_type = vehicle_type;
     }
 
-    @Override
-    public String toString() {
-        return "CarAttribute{" +
-                "vehicle_object_type='" + vehicle_object_type + '\'' +
-                ", belt_mainDriver='" + belt_mainDriver + '\'' +
-                ", belt_coDriver='" + belt_coDriver + '\'' +
-                ", brand_name='" + brand_name + '\'' +
-                ", call_code='" + call_code + '\'' +
-                ", vehicle_color='" + vehicle_color + '\'' +
-                ", crash_code='" + crash_code + '\'' +
-                ", danger_code='" + danger_code + '\'' +
-                ", marker_code='" + marker_code + '\'' +
-                ", plate_schelter_code='" + plate_schelter_code + '\'' +
-                ", plate_flag_code='" + plate_flag_code + '\'' +
-                ", plate_licence='" + plate_licence + '\'' +
-                ", plate_destain_code='" + plate_destain_code + '\'' +
-                ", plate_color_code='" + plate_color_code + '\'' +
-                ", plate_type_code='" + plate_type_code + '\'' +
-                ", rack_code='" + rack_code + '\'' +
-                ", spareTire_code='" + spareTire_code + '\'' +
-                ", mistake_code='" + mistake_code + '\'' +
-                ", sunroof_code='" + sunroof_code + '\'' +
-                ", vehicle_type='" + vehicle_type + '\'' +
-                '}';
+    public String getBelt_maindriver() {
+        return belt_maindriver;
+    }
+
+    public void setBelt_maindriver(String belt_maindriver) {
+        this.belt_maindriver = belt_maindriver;
+    }
+
+    public String getBelt_codriver() {
+        return belt_codriver;
+    }
+
+    public void setBelt_codriver(String belt_codriver) {
+        this.belt_codriver = belt_codriver;
+    }
+
+    public String getSparetire_code() {
+        return sparetire_code;
+    }
+
+    public void setSparetire_code(String sparetire_code) {
+        this.sparetire_code = sparetire_code;
+    }
+
+    public CarAttribute(String vehicle_object_type, String belt_maindriver, String belt_codriver, String brand_name, String call_code, String vehicle_color, String crash_code, String danger_code, String marker_code, String plate_schelter_code, String plate_flag_code, String plate_licence, String plate_destain_code, String plate_color_code, String plate_type_code, String rack_code, String sparetire_code, String mistake_code, String sunroof_code, String vehicle_type) {
+        this.vehicle_object_type = vehicle_object_type;
+        this.belt_maindriver = belt_maindriver;
+        this.belt_codriver = belt_codriver;
+        this.brand_name = brand_name;
+        this.call_code = call_code;
+        this.vehicle_color = vehicle_color;
+        this.crash_code = crash_code;
+        this.danger_code = danger_code;
+        this.marker_code = marker_code;
+        this.plate_schelter_code = plate_schelter_code;
+        this.plate_flag_code = plate_flag_code;
+        this.plate_licence = plate_licence;
+        this.plate_destain_code = plate_destain_code;
+        this.plate_color_code = plate_color_code;
+        this.plate_type_code = plate_type_code;
+        this.rack_code = rack_code;
+        this.sparetire_code = sparetire_code;
+        this.mistake_code = mistake_code;
+        this.sunroof_code = sunroof_code;
+        this.vehicle_type = vehicle_type;
     }
 }
