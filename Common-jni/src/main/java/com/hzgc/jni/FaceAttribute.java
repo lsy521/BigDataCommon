@@ -4,47 +4,16 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class FaceAttribute implements Serializable {
-
-    //特征值
-    private float[] feature;
-
-    //头发颜色
-    private int hairColor;
-
-    /**
-     * 头发类型
-     */
-    private int hairStyle;
-
-    /**
-     * 性别
-     */
-    private int gender;
-
-    /**
-     * 是否带帽子
-     */
-    private int hat;
-
-    /**
-     * 是否系领带
-     */
-    private int tie;
-
-    /**
-     * 胡子类型
-     */
-    private int huzi;
-
-    /**
-     * 是否戴眼镜
-     */
-    private int eyeglasses;
-
-    /**
-     * 清晰度评价,清晰为0，不清晰为1
-     */
-    private int sharpness;
+    private float[] feature;    // 特征值
+    private int hairColor;      // 头发颜色
+    private int hairStyle;      // 头发类型
+    private int gender;         // 性别
+    private int hat;            // 是否带帽子
+    private int tie;            // 是否系领带
+    private int huzi;           // 胡子类型
+    private int eyeglasses;     // 是否戴眼镜
+    private int sharpness;      // 清晰度评价,清晰为0，不清晰为1
+    private int frontFace;      // 是否正面
 
     public int getSharpness() {
         return sharpness;
@@ -118,6 +87,14 @@ public class FaceAttribute implements Serializable {
         this.eyeglasses = eyeglasses;
     }
 
+    public int getFrontFace() {
+        return frontFace;
+    }
+
+    public void setFrontFace(int frontFace) {
+        this.frontFace = frontFace;
+    }
+
     @Override
     public String toString() {
         return "FaceAttribute{" +
@@ -130,6 +107,7 @@ public class FaceAttribute implements Serializable {
                 ", huzi=" + huzi +
                 ", eyeglasses=" + eyeglasses +
                 ", sharpness=" + sharpness +
+                ", frontFace=" + frontFace +
                 '}';
     }
 }

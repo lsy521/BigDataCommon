@@ -30,6 +30,7 @@
         <module>Common-facestarepo</module>
         <module>Common-rpc</module>
         <module>Common-seemmo</module>
+        <module>Common-personattribute</module>
     </modules>
 
     <properties>
