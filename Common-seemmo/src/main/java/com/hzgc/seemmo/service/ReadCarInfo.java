@@ -9,8 +9,8 @@ public class ReadCarInfo {
 
     public ReadCarInfo() {
         vehicleMap.put("vehicle_object_type", ReadCarInfo.objectTypeInfo());
-        vehicleMap.put("belt_mainDriver", ReadCarInfo.otherProperties());
-        vehicleMap.put("belt_coDriver", ReadCarInfo.otherProperties());
+        vehicleMap.put("belt_maindriver", ReadCarInfo.otherProperties());
+        vehicleMap.put("belt_codriver", ReadCarInfo.otherProperties());
         vehicleMap.put("call_code", ReadCarInfo.otherProperties());
         vehicleMap.put("vehicle_color", ReadCarInfo.carColorInfo());
         vehicleMap.put("crash_code", ReadCarInfo.otherProperties());
@@ -22,8 +22,6 @@ public class ReadCarInfo {
         vehicleMap.put("plate_color_code", ReadCarInfo.plateColorInfo());
         vehicleMap.put("plate_type_code", ReadCarInfo.plateTypeInfo());
         vehicleMap.put("rack_code", ReadCarInfo.otherProperties());
-        vehicleMap.put("spareTire_code", ReadCarInfo.otherProperties());
-        vehicleMap.put("mistake_code", ReadCarInfo.mistakeInfo());
         vehicleMap.put("sunroof_code", ReadCarInfo.otherProperties());
         vehicleMap.put("vehicle_type", ReadCarInfo.carKindInfo());
     }

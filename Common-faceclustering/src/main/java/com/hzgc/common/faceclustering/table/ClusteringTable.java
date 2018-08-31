@@ -12,4 +12,7 @@ public class ClusteringTable {
     public static final String TABLE_DETAILINFO = "detailInfo";                      // detailInfo表
     public static final byte[] DETAILINFO_COLUMNFAMILY = "c".getBytes();      // detailInfo表列簇
     public static final byte[] DETAILINFO_COLUMN_DATA = "i".getBytes();       // 告警详细信息
+    public static final String TABLE_PEOPLECOMPARE = "peopleadd";
+    public static final byte[] PEOPELCOMPARE_COLUMNFAMILY = "add".getBytes();
+    public static final byte[] PEOPELCOMPARE_COLUMNDATA = "faceobject".getBytes();
 }

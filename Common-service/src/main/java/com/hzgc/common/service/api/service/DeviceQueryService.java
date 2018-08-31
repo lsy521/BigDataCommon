@@ -1,6 +1,8 @@
 package com.hzgc.common.service.api.service;
 
 import com.hzgc.common.service.api.bean.DeviceDTO;
+import com.hzgc.common.service.api.bean.RegionDTO;
+import com.hzgc.common.service.api.bean.WebgisMapPointDTO;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -103,6 +105,36 @@ public class DeviceQueryService {
     @SuppressWarnings("unused")
     public Map<String, DeviceDTO> getDeviceInfoByBatchIdError(List<Long> idList) {
         log.error("Get device info by batch id error, id List is:" + idList);
+        return new HashMap<>();
+    }
+
+    @SuppressWarnings("unused")
+    public Map<Long,WebgisMapPointDTO> getDeviceInfoByBatchIdByDevice(List<Long> deviceIds){
+        if (deviceIds != null && deviceIds.size() > 0){
+            ParameterizedTypeReference<Map<Long,WebgisMapPointDTO>> parameterizedTypeReference = new ParameterizedTypeReference<Map<Long, WebgisMapPointDTO>>() {
+            };
+            ResponseEntity<Map<Long,WebgisMapPointDTO>> responseEntity = restTemplate.exchange("http://gis/internal/gis/batch_query_by_id",
+                    HttpMethod.POST,
+                    new HttpEntity<>(deviceIds),
+                    parameterizedTypeReference);
+            log.info("responseEntity's Body is :" + responseEntity.getBody());
+            return responseEntity.getBody();
+        }
+        return new HashMap<>();
+    }
+
+    @SuppressWarnings("unused")
+    public Map<Long,RegionDTO> getRegionNameByRegionId(List<Long> regionIds){
+        if (regionIds != null && regionIds.size() > 0){
+            ParameterizedTypeReference<Map<Long,RegionDTO>> parameterizedTypeReference = new ParameterizedTypeReference<Map<Long, RegionDTO>>() {
+            };
+            ResponseEntity<Map<Long,RegionDTO>> responseEntity = restTemplate.exchange("http://region/internal/region/query_region_by_id",
+                    HttpMethod.POST,
+                    new HttpEntity<>(regionIds),
+                    parameterizedTypeReference);
+            log.info("responseEntity's Body is : " + responseEntity.getBody());
+            return responseEntity.getBody();
+        }
         return new HashMap<>();
     }
 }

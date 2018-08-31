@@ -1,5 +1,6 @@
 package com.hzgc.seemmo.service;
 
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -11,22 +12,22 @@ public class ReadPersonInfo {
     private final Map<String, Map<Integer, String>> personMap = new HashMap<>();
 
     public ReadPersonInfo() {
-        personMap.put("age", ReadPersonInfo.ageInfo());
-        personMap.put("baby", ReadPersonInfo.babyInfo());
-        personMap.put("bag", ReadPersonInfo.bagInfo());
-        personMap.put("bottomColor", ReadPersonInfo.bottomColorInfo());
-        personMap.put("bottomType", ReadPersonInfo.bottomTypeInfo());
-        personMap.put("hat", ReadPersonInfo.hatInfo());
-        personMap.put("hair", ReadPersonInfo.hairInfo());
-        personMap.put("knapsack", ReadPersonInfo.knapsackInfo());
-        personMap.put("messengerBag", ReadPersonInfo.messengerBagInfo());
-        personMap.put("orientation", ReadPersonInfo.orientationInfo());
-        personMap.put("sex", ReadPersonInfo.sexInfo());
-        personMap.put("shoudlerBag", ReadPersonInfo.shoulderBagInfo());
-        personMap.put("umbrella", ReadPersonInfo.umbrellaInfo());
-        personMap.put("upperColor", ReadPersonInfo.upperColorInfo());
-        personMap.put("upperType", ReadPersonInfo.upperTypeInfo());
-        personMap.put("type", ReadPersonInfo.objectTypeInfo());
+        personMap.put("age_code", ReadPersonInfo.ageInfo());
+        personMap.put("baby_code", ReadPersonInfo.babyInfo());
+        personMap.put("bag_code", ReadPersonInfo.bagInfo());
+        personMap.put("bottomcolor_code", ReadPersonInfo.bottomColorInfo());
+        personMap.put("bottomtype_code", ReadPersonInfo.bottomTypeInfo());
+        personMap.put("hat_code", ReadPersonInfo.hatInfo());
+        personMap.put("hair_code", ReadPersonInfo.hairInfo());
+        personMap.put("knapsack_code", ReadPersonInfo.knapsackInfo());
+        personMap.put("messengerbag_code", ReadPersonInfo.messengerBagInfo());
+        personMap.put("orientation_code", ReadPersonInfo.orientationInfo());
+        personMap.put("sex_code", ReadPersonInfo.sexInfo());
+        personMap.put("shoulderbag_code", ReadPersonInfo.shoulderBagInfo());
+        personMap.put("umbrella_code", ReadPersonInfo.umbrellaInfo());
+        personMap.put("uppercolor_code", ReadPersonInfo.upperColorInfo());
+        personMap.put("uppertype_code", ReadPersonInfo.upperTypeInfo());
+        personMap.put("car_type", ReadPersonInfo.objectTypeInfo());
     }
 
     private static Map<Integer, String> ageInfo() {

@@ -1,7 +1,10 @@
 package com.hzgc.jniface;
 
+import javax.imageio.stream.FileImageInputStream;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FaceFunction implements Serializable {
 
@@ -33,7 +36,7 @@ public class FaceFunction implements Serializable {
     public static native ArrayList<SmallImage> bigPictureCheck(byte[] pictureStream, String pictureFormat);
 
     /**
-     * 大图检测功能,次方法只能检测人脸图片
+     * 大图检测功能,此方法只能检测人脸图片
      *
      * @param pictureStream 二进制图片
      * @param pictureFormat 图片格式
@@ -113,4 +116,6 @@ public class FaceFunction implements Serializable {
      * @return 比对结果
      */
     public static native ArrayList<CompareResult> faceCompareFloat(float[][] diku, float[][] queryList, int topN);
+
+
 }
