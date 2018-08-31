@@ -63,6 +63,7 @@ public class CutImageUtil {
             ImageReader reader = it.next();
             // 获取图片流
             iis = ImageIO.createImageInputStream(is);
+            ImageIO.createImageInputStream(new byte[5]);
 
             /*
              * <p>iis:读取源.true:只向前搜索 </p>.将它标记为 ‘只向前搜索'。
@@ -121,41 +122,69 @@ public class CutImageUtil {
 //            e.printStackTrace();
 //        }
 //    }
-    private String getFileSuffix(final String path) throws IOException {
-        String result = "";
-        String hex = "";
-        if (path != null) {
-            File image = new File(path);
-            InputStream is = new FileInputStream(image);
-            byte[] bt = new byte[2];
-            is.read(bt);
-            hex = bytesToHexString(bt);
-            is.close();
-            if (hex.equals("ffd8")) {
-                result = "jpg";
-            } else if (hex.equals("4749")) {
-                result = "gif";
-            } else if (hex.equals("8950")) {
-                result = "png";
-            }
-        }
+    /**
+     * 对图片裁剪，并把裁剪完新图片保存 。
+     */
+    public byte[] cut(byte[] bytess) throws IOException {
 
-        return result;
-    }
+        FileInputStream is = null;
+        ImageInputStream iis = null;
 
-    public static String bytesToHexString(byte[] src) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (src == null || src.length <= 0) {
-            return null;
+        try {
+            // 读取图片文件
+            is = new FileInputStream(srcpath);
+
+            /*
+             * 返回包含所有当前已注册 ImageReader 的 Iterator，这些 ImageReader
+             * 声称能够解码指定格式。 参数：formatName - 包含非正式格式名称 .
+             *（例如 "jpeg" 或 "tiff"）等 。
+             */
+            Iterator<ImageReader> it = ImageIO.getImageReadersByFormatName("jpg");
+            ImageReader reader = it.next();
+            // 获取图片流
+            iis = ImageIO.createImageInputStream(bytess);
+
+            /*
+             * <p>iis:读取源.true:只向前搜索 </p>.将它标记为 ‘只向前搜索'。
+             * 此设置意味着包含在输入源中的图像将只按顺序读取，可能允许 reader
+             * 避免缓存包含与以前已经读取的图像关联的数据的那些输入部分。
+             */
+            reader.setInput(iis, true);
+
+            /*
+             * <p>描述如何对流进行解码的类<p>.用于指定如何在输入时从 Java Image I/O
+             * 框架的上下文中的流转换一幅图像或一组图像。用于特定图像格式的插件
+             * 将从其 ImageReader 实现的 getDefaultReadParam 方法中返回
+             * ImageReadParam 的实例。
+             */
+            ImageReadParam param = reader.getDefaultReadParam();
+
+            /*
+             * 图片裁剪区域。Rectangle 指定了坐标空间中的一个区域，通过 Rectangle 对象
+             * 的左上顶点的坐标（x，y）、宽度和高度可以定义这个区域。
+             */
+            Rectangle rect = new Rectangle(x, y, width, height);
+
+
+            // 提供一个 BufferedImage，将其用作解码像素数据的目标。
+            param.setSourceRegion(rect);
+
+            /*
+             * 使用所提供的 ImageReadParam 读取通过索引 imageIndex 指定的对象，并将
+             * 它作为一个完整的 BufferedImage 返回。
+             */
+            BufferedImage bi = reader.read(0, param);
+            // 保存新图片
+//            ImageIO.write(bi,"jpg",new File(subpath));
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(bi, "jpg", os);
+            byte[] bytes = os.toByteArray();
+            return bytes;
+        } finally {
+            if (is != null)
+                is.close();
+            if (iis != null)
+                iis.close();
         }
-        for (int i = 0; i < src.length; i++) {
-            int v = src[i] & 0xFF;
-            String hv = Integer.toHexString(v);
-            if (hv.length() < 2) {
-                stringBuilder.append(0);
-            }
-            stringBuilder.append(hv);
-        }
-        return stringBuilder.toString();
     }
 }
