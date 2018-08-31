@@ -21,11 +21,29 @@ public class BigDataPath {
     /**
      * Clustering模块请求路径
      */
-    public static final String CLUSTERING_SEARCH = "/clustering_search";
-    public static final String CLUSTERING_TOTLE = "/clustering_totle";
-    public static final String CLUSTERING_DETAILSEARCH_V1 = "/clustering_detail";
-    public static final String CLUSTERING_DELETE = "/clustering_delete";
-    public static final String CLUSTERING_IGNORE = "/clustering_ignore";
+    public static final String PEOPLEIN_SEARCH = "/peoplein_search";
+    public static final String PEOPLEIN_TOTLE = "/peoplein_totle";
+    public static final String PEOPLEIN_DETAILSEARCH_V1 = "/peoplein_detail";
+    public static final String PEOPLEIN_DELETE = "/peoplein_delete";
+    public static final String PEOPLEIN_IGNORE = "/peoplein_ignore";
+    public static final String PEOPLEIN_MOVEIN="/peoplein_movein";
+    public static final String PEOPLEIN_LOCUS="/peoplein_locus";
+
+    public static final String PEOPLEMANAGER_SAVEPLAN ="/peoplemanager_saveplan";
+    public static final String PEOPLEMANAGER_SEARCHPLAN = "/peoplemanager_searchplan";
+    public static final String PEOPLEMANAGER_MODIFYPLAN = "/peoplemanager_modifyplan";
+    public static final String PEOPLEMANAGER_DELETEPLAN = "/peoplemanager_deleteplan";
+    public static final String PEOPLEMANAGER_ADDPERSON="/peoplemanager_addperson";
+    public static final String PEOPLEMANAGER_DELETEPERSON="/peoplemanager_deleteperson";
+    public static final String PEOPLEMANAGER_MODIFYPERSON="/peoplemanager_modifyperson";
+    public static final String PEOPLEMANAGER_GETPERSON="/peoplemanager_getperson";
+    public static final String PEOPLEMANAGER_PERSONSEARCH="/peoplemanager_personsearch";;
+    public static final String PEOPLEMANAGER_CAPTURECOUNT="/peoplemanager_capturecount";
+    public static final String PEOPLEMANAGER_CAPTUREHISTORY="/peoplemanager_capturehistory";
+    public static final String PEOPLEMANAGER_RESIDENTSEARCH="/peoplemanager_residentsearch";
+    public static final String PEOPLEMANAGER_GETRESIDENTPICTURE="/peoplemanager_getresidentpicture";
+    public static final String PEOPLEMANAGER_CAPTURELOCUS="/peoplemanager_capturelocus";
+
 
     /**
      * Device模块请求路径
@@ -118,4 +136,10 @@ public class BigDataPath {
      * Dispatch模块请求路径
      */
     public static final String ALARM__QUERY = "/alarm_info";
+
+    /**
+     *Discar模块请求路径
+     */
+    public static final String DYNCAR_CAPTURE_HISTORY = "/vehicle_history";
+
 }

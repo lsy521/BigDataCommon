@@ -15,9 +15,9 @@ public class Person implements Serializable {
     //拎东西
     private String bag_code;
     //下衣颜色
-    private String bottomColor_code;
+    private String bottomcolor_code;
     //下衣类型
-    private String bottomType_code;
+    private String bottomtype_code;
     //帽子类型
     private String hat_code;
     //发型
@@ -25,19 +25,19 @@ public class Person implements Serializable {
     //双肩包
     private String knapsack_code;
     //斜挎包
-    private String messengerBag_code;
+    private String messengerbag_code;
     //行人方向
     private String orientation_code;
     //性别
     private String sex_code;
     //单肩包
-    private String shoulderBag_code;
+    private String shoulderbag_code;
     //雨伞
     private String umbrella_code;
     //上衣颜色
-    private String upperColor_code;
+    private String uppercolor_code;
     //上衣类型
-    private String upperType_code;
+    private String uppertype_code;
     //骑车的类型
     private String car_type;
     //骑车的图片数据

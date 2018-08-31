@@ -1,15 +1,15 @@
 package com.hzgc.common.collect.bean;
 
-import com.hzgc.jniface.FaceAttribute;
+import com.hzgc.seemmo.bean.carbean.Vehicle;
 
 import java.io.Serializable;
 
-public class FaceObject implements Serializable {
+public class CarObject implements Serializable {
     private String ipcId;               // 设备ID
     private String timeStamp;           // 时间（格式：2017-01-01 00：00：00）
     private String date;                // 日期（格式：2017-01-01）
     private int timeSlot;               // 时间段（格式：0000）（小时+分钟）
-    private FaceAttribute attribute;    // 人脸属性对象
+    private Vehicle attribute;          // 车辆属性对象
     private String surl;                // 小图ftp路径（带hostname的ftpurl）
     private String burl;                // 大图ftp路径（带hostname的ftpurl）
     private String relativePath;        // 小图相对路径（不带ftp根跟路径）
@@ -17,15 +17,15 @@ public class FaceObject implements Serializable {
     private String ip;                  // 图片保存主机:ip
     private String hostname;            // 图片保存主机:hostname
 
-    public static FaceObject builder() {
-        return new FaceObject();
+    public static CarObject builder() {
+        return new CarObject();
     }
 
     public String getIpcId() {
         return ipcId;
     }
 
-    public FaceObject setIpcId(String ipcId) {
+    public CarObject setIpcId(String ipcId) {
         this.ipcId = ipcId;
         return this;
     }
@@ -34,7 +34,7 @@ public class FaceObject implements Serializable {
         return timeStamp;
     }
 
-    public FaceObject setTimeStamp(String timeStamp) {
+    public CarObject setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
         return this;
     }
@@ -43,7 +43,7 @@ public class FaceObject implements Serializable {
         return date;
     }
 
-    public FaceObject setDate(String date) {
+    public CarObject setDate(String date) {
         this.date = date;
         return this;
     }
@@ -52,16 +52,16 @@ public class FaceObject implements Serializable {
         return timeSlot;
     }
 
-    public FaceObject setTimeSlot(int timeSlot) {
+    public CarObject setTimeSlot(int timeSlot) {
         this.timeSlot = timeSlot;
         return this;
     }
 
-    public FaceAttribute getAttribute() {
+    public Vehicle getAttribute() {
         return attribute;
     }
 
-    public FaceObject setAttribute(FaceAttribute attribute) {
+    public CarObject setAttribute(Vehicle attribute) {
         this.attribute = attribute;
         return this;
     }
@@ -70,7 +70,7 @@ public class FaceObject implements Serializable {
         return surl;
     }
 
-    public FaceObject setSurl(String surl) {
+    public CarObject setSurl(String surl) {
         this.surl = surl;
         return this;
     }
@@ -79,7 +79,7 @@ public class FaceObject implements Serializable {
         return burl;
     }
 
-    public FaceObject setBurl(String burl) {
+    public CarObject setBurl(String burl) {
         this.burl = burl;
         return this;
     }
@@ -88,7 +88,7 @@ public class FaceObject implements Serializable {
         return relativePath;
     }
 
-    public FaceObject setRelativePath(String relativePath) {
+    public CarObject setRelativePath(String relativePath) {
         this.relativePath = relativePath;
         return this;
     }
@@ -97,7 +97,7 @@ public class FaceObject implements Serializable {
         return relativePath_big;
     }
 
-    public FaceObject setRelativePath_big(String relativePath_big) {
+    public CarObject setRelativePath_big(String relativePath_big) {
         this.relativePath_big = relativePath_big;
         return this;
     }
@@ -106,7 +106,7 @@ public class FaceObject implements Serializable {
         return ip;
     }
 
-    public FaceObject setIp(String ip) {
+    public CarObject setIp(String ip) {
         this.ip = ip;
         return this;
     }
@@ -115,7 +115,7 @@ public class FaceObject implements Serializable {
         return hostname;
     }
 
-    public FaceObject setHostname(String hostname) {
+    public CarObject setHostname(String hostname) {
         this.hostname = hostname;
         return this;
     }
