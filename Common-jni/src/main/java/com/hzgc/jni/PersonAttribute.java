@@ -32,7 +32,7 @@ public class PersonAttribute {
 
     private String upperType;
 
-    private String catType;
+    private String carType;
 
     public String getAge() {
         return age;
@@ -146,19 +146,19 @@ public class PersonAttribute {
         this.upperType = upperType;
     }
 
-    public String getCatType() {
-        return catType;
-    }
-
-    public void setCatType(String catType) {
-        this.catType = catType;
-    }
-
     public String getHair() {
         return hair;
     }
 
     public void setHair(String hair) {
         this.hair = hair;
+    }
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
     }
 }

@@ -117,4 +117,5 @@ public class FaceFunction implements Serializable {
      */
     public static native ArrayList<CompareResult> faceCompareFloat(float[][] diku, float[][] queryList, int topN);
 
+
 }

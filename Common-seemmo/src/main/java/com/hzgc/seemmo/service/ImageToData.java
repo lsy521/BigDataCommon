@@ -268,8 +268,8 @@ public class ImageToData {
                 if (pedestrains.size() > 0){
                     for (JSONObject js: pedestrains){
                         Person person_object = new Person();
-                        String car_type = (String) js.get("Type");
-                        person_object.setCar_type(car_type);
+                        int car_type = (Integer) js.get("Type");
+                        person_object.setCar_type(String.valueOf(car_type));
                         JSONObject person_detect = (JSONObject) js.get("Detect");
                         int person_code = (int) person_detect.get("Code");
                         JSONArray person_rect = null;
@@ -504,5 +504,8 @@ public class ImageToData {
         String imageJsonString = JsonUtil.objectToJsonString(bytes);
         String s = ImageToData.executeHttpPost(url, imageJsonString);
         return ImageToData.getData(s, null, tag);
+    }
+
+    public static void main(String[] args) {
     }
 }
