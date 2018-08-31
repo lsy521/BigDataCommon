@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
+import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -63,7 +64,6 @@ public class CutImageUtil {
             ImageReader reader = it.next();
             // 获取图片流
             iis = ImageIO.createImageInputStream(is);
-            ImageIO.createImageInputStream(new byte[5]);
 
             /*
              * <p>iis:读取源.true:只向前搜索 </p>.将它标记为 ‘只向前搜索'。
@@ -109,30 +109,16 @@ public class CutImageUtil {
         }
     }
 
-    //    public static void main(String[] args) {
-//        CutImageUtil cutImageUtil = new CutImageUtil(2051, 676, 288, 553);
-//        cutImageUtil.srcpath = "C:\\Users\\g10255\\Desktop\\100.jpg";
-//        cutImageUtil.subpath = "C:\\Users\\g10255\\Desktop\\103.jpg";
-//
-//        try {
-//            String fileSuffix = cutImageUtil.getFileSuffix("C:\\Users\\g10255\\Desktop\\100.jpg");
-//            System.out.println(fileSuffix);
-//            cutImageUtil.cut();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
     /**
      * 对图片裁剪，并把裁剪完新图片保存 。
      */
     public byte[] cut(byte[] bytess) throws IOException {
 
-        FileInputStream is = null;
         ImageInputStream iis = null;
 
         try {
             // 读取图片文件
-            is = new FileInputStream(srcpath);
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(bytess);
 
             /*
              * 返回包含所有当前已注册 ImageReader 的 Iterator，这些 ImageReader
@@ -142,7 +128,7 @@ public class CutImageUtil {
             Iterator<ImageReader> it = ImageIO.getImageReadersByFormatName("jpg");
             ImageReader reader = it.next();
             // 获取图片流
-            iis = ImageIO.createImageInputStream(bytess);
+            iis = ImageIO.createImageInputStream(inputStream);
 
             /*
              * <p>iis:读取源.true:只向前搜索 </p>.将它标记为 ‘只向前搜索'。
@@ -181,8 +167,6 @@ public class CutImageUtil {
             byte[] bytes = os.toByteArray();
             return bytes;
         } finally {
-            if (is != null)
-                is.close();
             if (iis != null)
                 iis.close();
         }
