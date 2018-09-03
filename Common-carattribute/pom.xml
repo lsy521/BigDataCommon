@@ -10,7 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hzgc.common</groupId>
-    <artifactId>common-personattribute</artifactId>
+    <artifactId>common-carattribute</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>com.hzgc.common</groupId>
@@ -19,6 +20,5 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
 
 </project>

@@ -1,6 +1,6 @@
 package com.hzgc.jni;
 
-import com.hzgc.jni.PersonAttribute;
+import com.hzgc.jniface.PersonAttribute;
 
 import java.io.Serializable;
 import java.util.List;
